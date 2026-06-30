@@ -2,19 +2,19 @@ import React, { useState, useMemo } from 'react';
 import { Edit2, Trash2, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { sampleProducts } from '../data/products';
 import { formatDate } from '../utils/formatDate';
 import { PRODUCT_CATEGORIES } from '../types/product';
 import type { Product } from '../types/product';
 
 interface ProductListProps {
+  products: Product[]; // 👈 1. Añadimos la propiedad en la interfaz para recibir los datos dinámicos
   onEdit: (productId: string) => void;
   currentView: string;
   onNavigate: (view: string) => void;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ onEdit, currentView, onNavigate }) => {
-  const [products] = useState(sampleProducts);
+const ProductList: React.FC<ProductListProps> = ({ products, onEdit, currentView, onNavigate }) => {
+  // 👈 2. ELIMINAMOS el "const [products] = useState(sampleProducts);" local para usar el del padre
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   
   // Search and filter states
@@ -76,7 +76,6 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit, currentView, onNaviga
   const handleDelete = (productId: string) => {
     if (confirm('¿Está seguro de que desea eliminar este producto?')) {
       console.log('Deleting product:', productId);
-      // Here you would typically make an API call to delete the product
     }
   };
 
@@ -157,7 +156,6 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit, currentView, onNaviga
           </div>
         </div>
 
-        {/* Results summary */}
         <div className="mt-4 text-sm text-gray-600">
           Mostrando {currentProducts.length} de {filteredProducts.length} productos
           {filteredProducts.length !== products.length && ` (${products.length} total)`}

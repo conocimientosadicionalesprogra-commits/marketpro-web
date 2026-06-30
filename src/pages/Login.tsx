@@ -1,6 +1,6 @@
-import React from 'react';
-import Logo from '../components/Logo';
-import LoginForm from '../components/LoginForm';
+import React, { useState } from 'react';
+import { Shield } from 'lucide-react';
+import Button from '../components/ui/Button';
 
 interface LoginProps {
   onLogin: (credentials: { username: string; password: string }) => void;
@@ -8,39 +8,104 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
-  /**
-   * FUNCIÓN PARA MANEJAR "OLVIDÉ MI CONTRASEÑA"
-   * 
-   * Esta función se ejecuta cuando el usuario hace clic en "Olvidé mi contraseña"
-   * Navega a la vista de recuperación de contraseña
-   */
-  const handleForgotPassword = () => {
-    onNavigate('forgot-password');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!username || !password) return;
+    
+    // Eliminamos espacios accidentales al inicio o final con .trim()
+    onLogin({ 
+      username: username.trim(), 
+      password: password.trim() 
+    });
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div 
-        className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden"
-        style={{ 
-          boxShadow: '0 10px 25px -5px rgba(0, 51, 102, 0.1), 0 8px 10px -6px rgba(0, 51, 102, 0.05)'
-        }}
-      >
-        <div className="bg-primary/5 p-6 flex flex-col items-center justify-center border-b border-gray-200">
-          <Logo className="mb-4" />
-          <h1 className="text-2xl font-bold text-gray-800">Bienvenido a MarketPro</h1>
-          <p className="text-gray-500 text-center mt-1">
-            Sistema de Gestión de Inventarios
-          </p>
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex justify-center">
+          <div className="bg-primary-100 p-3 rounded-xl text-primary">
+            <Shield size={40} />
+          </div>
         </div>
-        
-        <div className="p-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-6">Iniciar Sesión</h2>
-          <LoginForm onSubmit={onLogin} onForgotPassword={handleForgotPassword} />
-        </div>
-        
-        <div className="bg-gray-50 px-6 py-4 text-center text-sm text-gray-500 border-t border-gray-200">
-          © {new Date().getFullYear()} MarketPro • Todos los derechos reservados
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">MarketPro</h2>
+        <p className="mt-2 text-center text-sm text-gray-600">Sistema de Gestión de Inventarios</p>
+      </div>
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-100">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Usuario o Correo Electrónico</label>
+              <div className="mt-1">
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                  placeholder="ej. admin"
+                  autoCapitalize="none"   // 👈 Evita mayúsculas automáticas en celulares
+                  autoCorrect="off"       // 👈 Apaga el autocorrector molesto
+                  spellCheck="false"      // 👈 Quita las líneas rojas de ortografía
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+              <div className="mt-1">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                  placeholder="••••••••"
+                  autoCapitalize="none"   // 👈 Protege también la clave de las mayúsculas iniciales
+                  autoCorrect="off"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="text-sm text-right">
+              <button
+                type="button"
+                onClick={() => onNavigate('forgot-password')}
+                className="font-medium text-primary hover:text-primary/80"
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            </div>
+
+            <div>
+              <Button type="submit" className="w-full flex justify-center">
+                Iniciar Sesión
+              </Button>
+            </div>
+
+            {/* --- SECCIÓN REESTRUCTURADA PARA REGISTRO --- */}
+            <div className="relative mt-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">¿Eres nuevo en el sistema?</span>
+              </div>
+            </div>
+
+            <div className="text-center mt-2">
+              <button
+                type="button"
+                onClick={() => onNavigate('register')}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-blue-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              >
+                Crear una cuenta nueva
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

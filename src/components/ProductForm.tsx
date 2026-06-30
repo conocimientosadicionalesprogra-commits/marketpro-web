@@ -4,20 +4,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { format } from 'date-fns';
 import { Save, X, Trash2, Upload, Image as ImageIcon } from 'lucide-react';
-import Input from './ui/Input';
 import Button from './ui/Button';
 import { Product, PRODUCT_CATEGORIES } from '../types/product';
 
+// Esquema CORREGIDO (sin propiedades duplicadas)
 const productSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido').max(100, 'El nombre no puede exceder 100 caracteres'),
   sku: z.string().min(1, 'El SKU es requerido').max(50, 'El SKU no puede exceder 50 caracteres'),
+  purchasePrice: z.preprocess((val) => Number(val), z.number().min(0, 'El precio de compra debe ser mayor o igual a 0')),
+  salePrice: z.preprocess((val) => Number(val), z.number().min(0, 'El precio de venta debe ser mayor o igual a 0')),
+  stock: z.preprocess((val) => Number(val), z.number().int().min(0, 'El stock debe ser mayor o igual a 0')),
   category: z.enum(PRODUCT_CATEGORIES, {
     errorMap: () => ({ message: 'Seleccione una categoría válida' }),
   }),
-  purchasePrice: z.number().min(0, 'El precio de compra debe ser mayor o igual a 0'),
-  salePrice: z.number().min(0, 'El precio de venta debe ser mayor o igual a 0'),
-  stock: z.number().int().min(0, 'El stock debe ser mayor o igual a 0'),
-  expiryDate: z.string().nullable(),
+  expiryDate: z.string().or(z.literal("")).nullable().optional(),
   image: z.string().optional(),
 });
 
@@ -74,13 +74,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         alert('Por favor seleccione un archivo de imagen válido');
         return;
       }
-
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         alert('El archivo es demasiado grande. Máximo 5MB permitido');
         return;
@@ -102,7 +99,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
   };
 
   const handleFormSubmit = async (data: ProductFormData) => {
-    // Additional validation
     if (data.salePrice < data.purchasePrice) {
       alert('El precio de venta no puede ser menor al precio de compra');
       return;
@@ -110,6 +106,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
     setIsSubmitting(true);
     try {
+      // Llama a la función que le pasa el componente padre
       await onSubmit(data);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -176,81 +173,100 @@ const ProductForm: React.FC<ProductFormProps> = ({
         </div>
       </div>
 
-      {/* Product Information */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Input
-          label="Nombre del producto *"
+      {/* Nombre del producto */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del producto *</label>
+        <input
+          type="text"
           {...register('name')}
-          error={errors.name?.message}
           placeholder="Ingrese el nombre del producto"
+          className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900"
         />
-
-        <Input
-          label="SKU *"
-          {...register('sku')}
-          error={errors.sku?.message}
-          placeholder="Ingrese el código SKU"
-        />
-
-        <div className="form-control">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Categoría *
-          </label>
-          <select
-            {...register('category')}
-            className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-          >
-            {PRODUCT_CATEGORIES.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          {errors.category && (
-            <p className="mt-1 text-sm text-red-500">{errors.category.message}</p>
-          )}
-        </div>
-
-        <Input
-          label="Precio de compra *"
-          type="number"
-          step="0.01"
-          min="0"
-          {...register('purchasePrice', { valueAsNumber: true })}
-          error={errors.purchasePrice?.message}
-          placeholder="0.00"
-        />
-
-        <Input
-          label="Precio de venta *"
-          type="number"
-          step="0.01"
-          min="0"
-          {...register('salePrice', { valueAsNumber: true })}
-          error={errors.salePrice?.message}
-          placeholder="0.00"
-        />
-
-        <Input
-          label="Stock inicial *"
-          type="number"
-          min="0"
-          {...register('stock', { valueAsNumber: true })}
-          error={errors.stock?.message}
-          placeholder="0"
-        />
-
-        <Input
-          label="Fecha de vencimiento (opcional)"
-          type="date"
-          {...register('expiryDate')}
-          error={errors.expiryDate?.message}
-          min={format(new Date(), 'yyyy-MM-dd')}
-        />
+        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
       </div>
 
-      {/* Price Validation Warning */}
-      {watchedSalePrice && watchedPurchasePrice && watchedSalePrice < watchedPurchasePrice && (
+      {/* SKU */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">SKU *</label>
+        <input
+          type="text"
+          {...register('sku')}
+          placeholder="Ingrese el código SKU"
+          className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900"
+        />
+        {errors.sku && <p className="mt-1 text-sm text-red-500">{errors.sku.message}</p>}
+      </div>
+
+      {/* Categoría */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
+        <select
+          {...register('category')}
+          className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+        >
+          {PRODUCT_CATEGORIES.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        {errors.category && <p className="mt-1 text-sm text-red-500">{errors.category.message}</p>}
+      </div>
+
+      {/* Precio de compra */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Precio de compra *</label>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="0.00"
+          {...register('purchasePrice')}
+          className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
+        />
+        {errors.purchasePrice && <p className="mt-1 text-sm text-red-500">{errors.purchasePrice.message}</p>}
+      </div>
+
+      {/* Precio de venta */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Precio de venta *</label>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="0.00"
+          {...register('salePrice')}
+          className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
+        />
+        {errors.salePrice && <p className="mt-1 text-sm text-red-500">{errors.salePrice.message}</p>}
+      </div>
+
+      {/* Stock inicial */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Stock inicial *</label>
+        <input
+          type="number"
+          min="0"
+          placeholder="0"
+          {...register('stock')}
+          className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
+        />
+        {errors.stock && <p className="mt-1 text-sm text-red-500">{errors.stock.message}</p>}
+      </div>
+
+      {/* Fecha de vencimiento */}
+      <div className="form-control">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de vencimiento (opcional)</label>
+        <input
+          type="date"
+          {...register('expiryDate')}
+          className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
+        />
+        {errors.expiryDate && <p className="mt-1 text-sm text-red-500">{errors.expiryDate.message}</p>}
+      </div>
+
+      {/* Alerta de precio */}
+      {watchedSalePrice && watchedPurchasePrice && Number(watchedSalePrice) < Number(watchedPurchasePrice) && (
         <div className="p-4 bg-warning-50 border border-warning-200 rounded-md">
           <p className="text-warning-700 text-sm">
             ⚠️ El precio de venta es menor al precio de compra. Esto resultará en pérdidas.
@@ -258,15 +274,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
         </div>
       )}
 
+      {/* Botones de acción */}
       <div className="flex justify-end gap-4 pt-4">
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={onCancel}
-          className="flex items-center gap-2"
-        >
-          <X size={18} />
-          Cancelar
+        <Button type="button" variant="ghost" onClick={onCancel} className="flex items-center gap-2">
+          <X size={18} /> Cancelar
         </Button>
 
         {product && onDelete && (
@@ -276,18 +287,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
             onClick={onDelete}
             className="flex items-center gap-2 !text-error-500 !border-error-500 hover:!bg-error-50"
           >
-            <Trash2 size={18} />
-            Eliminar
+            <Trash2 size={18} /> Eliminar
           </Button>
         )}
 
-        <Button
-          type="submit"
-          isLoading={isSubmitting}
-          className="flex items-center gap-2"
-        >
-          <Save size={18} />
-          {product ? 'Actualizar' : 'Guardar'}
+        <Button type="submit" isLoading={isSubmitting} className="flex items-center gap-2">
+          <Save size={18} /> {product ? 'Actualizar' : 'Guardar'}
         </Button>
       </div>
     </form>
