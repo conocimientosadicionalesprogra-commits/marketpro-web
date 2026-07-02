@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { format } from 'date-fns';
-import { Save, X, Trash2, Upload, Image as ImageIcon } from 'lucide-react';
-import Button from './ui/Button';
-import { Product, PRODUCT_CATEGORIES } from '../types/product';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { format } from "date-fns";
+import { Save, X, Trash2, Upload, Image as ImageIcon } from "lucide-react";
+import Button from "./ui/Button";
+import { Product, PRODUCT_CATEGORIES } from "../types/product";
 
 // Esquema CORREGIDO (sin propiedades duplicadas)
 const productSchema = z.object({
-  name: z.string().min(1, 'El nombre es requerido').max(100, 'El nombre no puede exceder 100 caracteres'),
-  sku: z.string().min(1, 'El SKU es requerido').max(50, 'El SKU no puede exceder 50 caracteres'),
-  purchasePrice: z.preprocess((val) => Number(val), z.number().min(0, 'El precio de compra debe ser mayor o igual a 0')),
-  salePrice: z.preprocess((val) => Number(val), z.number().min(0, 'El precio de venta debe ser mayor o igual a 0')),
-  stock: z.preprocess((val) => Number(val), z.number().int().min(0, 'El stock debe ser mayor o igual a 0')),
+  name: z.string().min(1, "El nombre es requerido").max(100, "El nombre no puede exceder 100 caracteres"),
+  sku: z.string().min(1, "El SKU es requerido").max(50, "El SKU no puede exceder 50 caracteres"),
+  purchasePrice: z.preprocess((val) => Number(val), z.number().min(0, "El precio de compra debe ser mayor o igual a 0")),
+  salePrice: z.preprocess((val) => Number(val), z.number().min(0, "El precio de venta debe ser mayor o igual a 0")),
+  stock: z.preprocess((val) => Number(val), z.number().int().min(0, "El stock debe ser mayor o igual a 0")),
   category: z.enum(PRODUCT_CATEGORIES, {
-    errorMap: () => ({ message: 'Seleccione una categoría válida' }),
+    errorMap: () => ({ message: "Seleccione una categoría válida" }),
   }),
   expiryDate: z.string().or(z.literal("")).nullable().optional(),
   image: z.string().optional(),
@@ -43,18 +43,18 @@ const ProductForm: React.FC<ProductFormProps> = ({
     ? {
         ...product,
         expiryDate: product.expiryDate
-          ? format(new Date(product.expiryDate), 'yyyy-MM-dd')
+          ? format(new Date(product.expiryDate), "yyyy-MM-dd")
           : null,
       }
     : {
-        name: '',
-        sku: '',
-        category: 'Otros' as const,
+        name: "",
+        sku: "",
+        category: "Otros" as const,
         purchasePrice: 0,
         salePrice: 0,
         stock: 0,
         expiryDate: null,
-        image: '',
+        image: "",
       };
 
   const {
@@ -68,18 +68,18 @@ const ProductForm: React.FC<ProductFormProps> = ({
     defaultValues,
   });
 
-  const watchedSalePrice = watch('salePrice');
-  const watchedPurchasePrice = watch('purchasePrice');
+  const watchedSalePrice = watch("salePrice");
+  const watchedPurchasePrice = watch("purchasePrice");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (!file.type.startsWith('image/')) {
-        alert('Por favor seleccione un archivo de imagen válido');
+      if (!file.type.startsWith("image/")) {
+        alert("Por favor seleccione un archivo de imagen válido");
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
-        alert('El archivo es demasiado grande. Máximo 5MB permitido');
+        alert("El archivo es demasiado grande. Máximo 5MB permitido");
         return;
       }
 
@@ -87,7 +87,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setImagePreview(result);
-        setValue('image', result);
+        setValue("image", result);
       };
       reader.readAsDataURL(file);
     }
@@ -95,12 +95,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   const removeImage = () => {
     setImagePreview(null);
-    setValue('image', '');
+    setValue("image", "");
   };
 
   const handleFormSubmit = async (data: ProductFormData) => {
     if (data.salePrice < data.purchasePrice) {
-      alert('El precio de venta no puede ser menor al precio de compra');
+      alert("El precio de venta no puede ser menor al precio de compra");
       return;
     }
 
@@ -109,7 +109,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       // Llama a la función que le pasa el componente padre
       await onSubmit(data);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -178,7 +178,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del producto *</label>
         <input
           type="text"
-          {...register('name')}
+          {...register("name")}
           placeholder="Ingrese el nombre del producto"
           className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900"
         />
@@ -190,7 +190,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         <label className="block text-sm font-medium text-gray-700 mb-1">SKU *</label>
         <input
           type="text"
-          {...register('sku')}
+          {...register("sku")}
           placeholder="Ingrese el código SKU"
           className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900"
         />
@@ -201,7 +201,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       <div className="form-control">
         <label className="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
         <select
-          {...register('category')}
+          {...register("category")}
           className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
         >
           {PRODUCT_CATEGORIES.map((category) => (
@@ -221,7 +221,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           step="0.01"
           min="0"
           placeholder="0.00"
-          {...register('purchasePrice')}
+          {...register("purchasePrice")}
           className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
         />
         {errors.purchasePrice && <p className="mt-1 text-sm text-red-500">{errors.purchasePrice.message}</p>}
@@ -235,7 +235,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           step="0.01"
           min="0"
           placeholder="0.00"
-          {...register('salePrice')}
+          {...register("salePrice")}
           className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
         />
         {errors.salePrice && <p className="mt-1 text-sm text-red-500">{errors.salePrice.message}</p>}
@@ -248,7 +248,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           type="number"
           min="0"
           placeholder="0"
-          {...register('stock')}
+          {...register("stock")}
           className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
         />
         {errors.stock && <p className="mt-1 text-sm text-red-500">{errors.stock.message}</p>}
@@ -259,7 +259,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de vencimiento (opcional)</label>
         <input
           type="date"
-          {...register('expiryDate')}
+          {...register("expiryDate")}
           className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-gray-900 bg-white"
         />
         {errors.expiryDate && <p className="mt-1 text-sm text-red-500">{errors.expiryDate.message}</p>}
@@ -292,7 +292,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
         )}
 
         <Button type="submit" isLoading={isSubmitting} className="flex items-center gap-2">
-          <Save size={18} /> {product ? 'Actualizar' : 'Guardar'}
+          <Save size={18} /> {product ? "Actualizar" : "Guardar"}
         </Button>
       </div>
     </form>

@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import { Edit2, Trash2, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { formatDate } from '../utils/formatDate';
-import { PRODUCT_CATEGORIES } from '../types/product';
-import type { Product } from '../types/product';
+import React, { useState, useMemo } from "react";
+import { Edit2, Trash2, Search, Filter, ChevronLeft, ChevronRight } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { formatDate } from "../utils/formatDate";
+import { PRODUCT_CATEGORIES } from "../types/product";
+import type { Product } from "../types/product";
 
 interface ProductListProps {
   products: Product[]; // 👈 1. Añadimos la propiedad en la interfaz para recibir los datos dinámicos
@@ -18,9 +18,9 @@ const ProductList: React.FC<ProductListProps> = ({ products, onEdit, currentView
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   
   // Search and filter states
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [stockFilter, setStockFilter] = useState('all'); // all, low, critical, normal
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [stockFilter, setStockFilter] = useState("all"); // all, low, critical, normal
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,13 +40,13 @@ const ProductList: React.FC<ProductListProps> = ({ products, onEdit, currentView
       // Stock filter
       let matchesStock = true;
       switch (stockFilter) {
-        case 'low':
+        case "low":
           matchesStock = product.stock < 50 && product.stock >= 20;
           break;
-        case 'critical':
+        case "critical":
           matchesStock = product.stock < 20;
           break;
-        case 'normal':
+        case "normal":
           matchesStock = product.stock >= 50;
           break;
         default:
@@ -74,21 +74,21 @@ const ProductList: React.FC<ProductListProps> = ({ products, onEdit, currentView
   };
 
   const handleDelete = (productId: string) => {
-    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
-      console.log('Deleting product:', productId);
+    if (confirm("¿Está seguro de que desea eliminar este producto?")) {
+      console.log("Deleting product:", productId);
     }
   };
 
   const getStockStatus = (stock: number) => {
-    if (stock < 20) return { label: 'Crítico', color: 'bg-error-100 text-error-700' };
-    if (stock < 50) return { label: 'Bajo', color: 'bg-warning-100 text-warning-700' };
-    return { label: 'Normal', color: 'bg-success-100 text-success-700' };
+    if (stock < 20) return { label: "Crítico", color: "bg-error-100 text-error-700" };
+    if (stock < 50) return { label: "Bajo", color: "bg-warning-100 text-warning-700" };
+    return { label: "Normal", color: "bg-success-100 text-success-700" };
   };
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedCategory('');
-    setStockFilter('all');
+    setSearchQuery("");
+    setSelectedCategory("");
+    setStockFilter("all");
     setCurrentPage(1);
   };
 
@@ -189,7 +189,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onEdit, currentView
                   return (
                     <tr 
                       key={product.id}
-                      className={`hover:bg-gray-50 ${selectedProduct === product.id ? 'bg-primary/5' : ''}`}
+                      className={`hover:bg-gray-50 ${selectedProduct === product.id ? "bg-primary/5" : ""}`}
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -231,7 +231,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onEdit, currentView
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-500">
-                          {product.expiryDate ? formatDate(product.expiryDate) : 'N/A'}
+                          {product.expiryDate ? formatDate(product.expiryDate) : "N/A"}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

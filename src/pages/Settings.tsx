@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Settings as SettingsIcon,
   Tags,
@@ -13,12 +13,11 @@ import {
   Save,
   Check,
   Plus,
-  Edit3,
-} from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { PRODUCT_CATEGORIES } from '../types/product';
-import { USER_ROLES } from '../types/user';
+  Edit3,} from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { PRODUCT_CATEGORIES } from "../types/product";
+import { USER_ROLES } from "../types/user";
 
 interface SettingsProps {
   currentView: string;
@@ -41,95 +40,95 @@ interface ColorTheme {
 
 const DEFAULT_THEMES: ColorTheme[] = [
   {
-    id: 'default',
-    name: 'Azul Corporativo (Por defecto)',
-    primary: '#003366',
-    accent: '#0E8B83',
-    background: '#F5F5F5',
-    preview: { primary: '#003366', accent: '#0E8B83', background: '#F5F5F5' }
+    id: "default",
+    name: "Azul Corporativo (Por defecto)",
+    primary: "#003366",
+    accent: "#0E8B83",
+    background: "#F5F5F5",
+    preview: { primary: "#003366", accent: "#0E8B83", background: "#F5F5F5" }
   },
   {
-    id: 'forest',
-    name: 'Verde Bosque',
-    primary: '#1B4332',
-    accent: '#52B788',
-    background: '#F8F9FA',
-    preview: { primary: '#1B4332', accent: '#52B788', background: '#F8F9FA' }
+    id: "forest",
+    name: "Verde Bosque",
+    primary: "#1B4332",
+    accent: "#52B788",
+    background: "#F8F9FA",
+    preview: { primary: "#1B4332", accent: "#52B788", background: "#F8F9FA" }
   },
   {
-    id: 'ocean',
-    name: 'Azul Océano',
-    primary: '#1E3A8A',
-    accent: '#3B82F6',
-    background: '#F1F5F9',
-    preview: { primary: '#1E3A8A', accent: '#3B82F6', background: '#F1F5F9' }
+    id: "ocean",
+    name: "Azul Océano",
+    primary: "#1E3A8A",
+    accent: "#3B82F6",
+    background: "#F1F5F9",
+    preview: { primary: "#1E3A8A", accent: "#3B82F6", background: "#F1F5F9" }
   },
   {
-    id: 'sunset',
-    name: 'Naranja Atardecer',
-    primary: '#9A3412',
-    accent: '#F97316',
-    background: '#FEF7ED',
-    preview: { primary: '#9A3412', accent: '#F97316', background: '#FEF7ED' }
+    id: "sunset",
+    name: "Naranja Atardecer",
+    primary: "#9A3412",
+    accent: "#F97316",
+    background: "#FEF7ED",
+    preview: { primary: "#9A3412", accent: "#F97316", background: "#FEF7ED" }
   },
   {
-    id: 'purple',
-    name: 'Púrpura Elegante',
-    primary: '#581C87',
-    accent: '#A855F7',
-    background: '#FAF5FF',
-    preview: { primary: '#581C87', accent: '#A855F7', background: '#FAF5FF' }
+    id: "purple",
+    name: "Púrpura Elegante",
+    primary: "#581C87",
+    accent: "#A855F7",
+    background: "#FAF5FF",
+    preview: { primary: "#581C87", accent: "#A855F7", background: "#FAF5FF" }
   },
   {
-    id: 'emerald',
-    name: 'Esmeralda Moderno',
-    primary: '#064E3B',
-    accent: '#10B981',
-    background: '#ECFDF5',
-    preview: { primary: '#064E3B', accent: '#10B981', background: '#ECFDF5' }
+    id: "emerald",
+    name: "Esmeralda Moderno",
+    primary: "#064E3B",
+    accent: "#10B981",
+    background: "#ECFDF5",
+    preview: { primary: "#064E3B", accent: "#10B981", background: "#ECFDF5" }
   },
   {
-    id: 'slate',
-    name: 'Gris Profesional',
-    primary: '#1E293B',
-    accent: '#64748B',
-    background: '#F8FAFC',
-    preview: { primary: '#1E293B', accent: '#64748B', background: '#F8FAFC' }
+    id: "slate",
+    name: "Gris Profesional",
+    primary: "#1E293B",
+    accent: "#64748B",
+    background: "#F8FAFC",
+    preview: { primary: "#1E293B", accent: "#64748B", background: "#F8FAFC" }
   },
   {
-    id: 'rose',
-    name: 'Rosa Ejecutivo',
-    primary: '#881337',
-    accent: '#F43F5E',
-    background: '#FFF1F2',
-    preview: { primary: '#881337', accent: '#F43F5E', background: '#FFF1F2' }
+    id: "rose",
+    name: "Rosa Ejecutivo",
+    primary: "#881337",
+    accent: "#F43F5E",
+    background: "#FFF1F2",
+    preview: { primary: "#881337", accent: "#F43F5E", background: "#FFF1F2" }
   }
 ];
 
 const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
-  const [activeSection, setActiveSection] = useState('appearance');
-  const [selectedTheme, setSelectedTheme] = useState('default');
+  const [activeSection, setActiveSection] = useState("appearance");
+  const [selectedTheme, setSelectedTheme] = useState("default");
   const [colorThemes, setColorThemes] = useState<ColorTheme[]>(DEFAULT_THEMES);
   const [isCreatingCustom, setIsCreatingCustom] = useState(false);
   const [customTheme, setCustomTheme] = useState({
-    name: '',
-    primary: '#003366',
-    accent: '#0E8B83',
-    background: '#F5F5F5'
+    name: "",
+    primary: "#003366",
+    accent: "#0E8B83",
+    background: "#F5F5F5"
   });
   const [editingTheme, setEditingTheme] = useState<string | null>(null);
 
   // Load saved theme on component mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('selectedTheme');
-    const savedCustomThemes = localStorage.getItem('customThemes');
+    const savedTheme = localStorage.getItem("selectedTheme");
+    const savedCustomThemes = localStorage.getItem("customThemes");
     
     if (savedCustomThemes) {
       try {
         const customThemes = JSON.parse(savedCustomThemes);
         setColorThemes([...DEFAULT_THEMES, ...customThemes]);
       } catch (error) {
-        console.error('Error loading custom themes:', error);
+        console.error("Error loading custom themes:", error);
       }
     }
     
@@ -144,12 +143,12 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
     if (theme) {
       // Apply CSS custom properties to root element
       const root = document.documentElement;
-      root.style.setProperty('--color-primary', theme.primary);
-      root.style.setProperty('--color-accent', theme.accent);
-      root.style.setProperty('--color-background', theme.background);
-      
+      root.style.setProperty("--color-primary", theme.primary);
+      root.style.setProperty("--color-accent", theme.accent);
+      root.style.setProperty("--color-background", theme.background);
+
       // Update Tailwind classes dynamically
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.innerHTML = `
         :root {
           --tw-color-primary: ${theme.primary};
@@ -170,12 +169,12 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
       `;
       
       // Remove previous dynamic styles
-      const existingStyle = document.getElementById('dynamic-theme');
+      const existingStyle = document.getElementById("dynamic-theme");
       if (existingStyle) {
         existingStyle.remove();
       }
       
-      style.id = 'dynamic-theme';
+      style.id = "dynamic-theme";
       document.head.appendChild(style);
     }
   };
@@ -183,23 +182,23 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
   const handleThemeChange = (themeId: string) => {
     setSelectedTheme(themeId);
     applyTheme(themeId);
-    localStorage.setItem('selectedTheme', themeId);
+    localStorage.setItem("selectedTheme", themeId);
   };
 
   const handleSaveTheme = () => {
     // Save current theme selection
-    localStorage.setItem('selectedTheme', selectedTheme);
+    localStorage.setItem("selectedTheme", selectedTheme);
     
     // Save custom themes
     const customThemes = colorThemes.filter(theme => theme.isCustom);
-    localStorage.setItem('customThemes', JSON.stringify(customThemes));
+    localStorage.setItem("customThemes", JSON.stringify(customThemes));
     
-    alert('Configuración de tema guardada exitosamente');
+    alert("Configuración de tema guardada exitosamente");
   };
 
   const handleCreateCustomTheme = () => {
     if (!customTheme.name.trim()) {
-      alert('Por favor ingrese un nombre para el tema personalizado');
+      alert("Por favor ingrese un nombre para el tema personalizado");
       return;
     }
 
@@ -222,14 +221,14 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
     
     // Save custom themes to localStorage
     const customThemes = updatedThemes.filter(theme => theme.isCustom);
-    localStorage.setItem('customThemes', JSON.stringify(customThemes));
+    localStorage.setItem("customThemes", JSON.stringify(customThemes));
     
     // Reset form
     setCustomTheme({
-      name: '',
-      primary: '#003366',
-      accent: '#0E8B83',
-      background: '#F5F5F5'
+      name: "",
+      primary: "#003366",
+      accent: "#0E8B83",
+      background: "#F5F5F5"
     });
     setIsCreatingCustom(false);
     
@@ -238,24 +237,24 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
   };
 
   const handleDeleteCustomTheme = (themeId: string) => {
-    if (confirm('¿Está seguro de que desea eliminar este tema personalizado?')) {
+    if (confirm("¿Está seguro de que desea eliminar este tema personalizado?")) {
       const updatedThemes = colorThemes.filter(theme => theme.id !== themeId);
       setColorThemes(updatedThemes);
       
       // Update localStorage
       const customThemes = updatedThemes.filter(theme => theme.isCustom);
-      localStorage.setItem('customThemes', JSON.stringify(customThemes));
+      localStorage.setItem("customThemes", JSON.stringify(customThemes));
       
       // If deleted theme was selected, switch to default
       if (selectedTheme === themeId) {
-        handleThemeChange('default');
+        handleThemeChange("default");
       }
     }
   };
 
   const renderContent = () => {
     switch (activeSection) {
-      case 'appearance':
+      case "appearance":
         return (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold mb-4">Personalización de Apariencia</h2>
@@ -270,8 +269,8 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
                       className={`
                         relative p-4 border-2 rounded-lg cursor-pointer transition-all duration-200
                         ${selectedTheme === theme.id 
-                          ? 'border-primary bg-primary/5' 
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? "border-primary bg-primary/5" 
+                          : "border-gray-200 hover:border-gray-300"
                         }
                       `}
                       onClick={() => handleThemeChange(theme.id)}
@@ -466,8 +465,8 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
                         className={`
                           relative p-4 border-2 rounded-lg cursor-pointer transition-all duration-200
                           ${selectedTheme === theme.id 
-                            ? 'border-primary bg-primary/5' 
-                            : 'border-gray-200 hover:border-gray-300'
+                            ? "border-primary bg-primary/5" 
+                            : "border-gray-200 hover:border-gray-300"
                           }
                         `}
                         onClick={() => handleThemeChange(theme.id)}
@@ -563,7 +562,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'categories':
+      case "categories":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Categorías de Productos</h2>
@@ -587,7 +586,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'taxes':
+      case "taxes":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Configuración de Impuestos</h2>
@@ -616,7 +615,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'alerts':
+      case "alerts":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Configuración de Alertas</h2>
@@ -649,7 +648,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'roles':
+      case "roles":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Gestión de Roles</h2>
@@ -673,7 +672,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'global':
+      case "global":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Parámetros Globales</h2>
@@ -706,7 +705,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'security':
+      case "security":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Seguridad</h2>
@@ -748,7 +747,7 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
           </div>
         );
 
-      case 'backup':
+      case "backup":
         return (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Backup de Datos</h2>
@@ -806,88 +805,88 @@ const Settings: React.FC<SettingsProps> = ({ currentView, onNavigate }) => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6">
         <div className="space-y-2">
           <button
-            onClick={() => setActiveSection('appearance')}
+            onClick={() => setActiveSection("appearance")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'appearance'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "appearance"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Palette size={20} />
             <span>Apariencia</span>
           </button>
           <button
-            onClick={() => setActiveSection('categories')}
+            onClick={() => setActiveSection("categories")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'categories'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "categories"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Tags size={20} />
             <span>Categorías</span>
           </button>
           <button
-            onClick={() => setActiveSection('taxes')}
+            onClick={() => setActiveSection("taxes")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'taxes'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "taxes"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Percent size={20} />
             <span>Impuestos</span>
           </button>
           <button
-            onClick={() => setActiveSection('alerts')}
+            onClick={() => setActiveSection("alerts")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'alerts'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "alerts"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Bell size={20} />
             <span>Alertas</span>
           </button>
           <button
-            onClick={() => setActiveSection('roles')}
+            onClick={() => setActiveSection("roles")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'roles'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "roles"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Users size={20} />
             <span>Roles</span>
           </button>
           <button
-            onClick={() => setActiveSection('global')}
+            onClick={() => setActiveSection("global")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'global'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "global"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Globe size={20} />
             <span>Parámetros Globales</span>
           </button>
           <button
-            onClick={() => setActiveSection('security')}
+            onClick={() => setActiveSection("security")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'security'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "security"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Shield size={20} />
             <span>Seguridad</span>
           </button>
           <button
-            onClick={() => setActiveSection('backup')}
+            onClick={() => setActiveSection("backup")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left ${
-              activeSection === 'backup'
-                ? 'bg-primary/10 text-primary'
-                : 'hover:bg-gray-50'
+              activeSection === "backup"
+                ? "bg-primary/10 text-primary"
+                : "hover:bg-gray-50"
             }`}
           >
             <Database size={20} />

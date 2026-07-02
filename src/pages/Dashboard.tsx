@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Package,
   AlertTriangle,
@@ -10,9 +10,9 @@ import {
   Settings,
   BarChart3,
   PieChart,
-} from 'lucide-react';
-import { sampleProducts } from '../data/products';
-import { PRODUCT_CATEGORIES } from '../types/product';
+} from "lucide-react";
+import { sampleProducts } from "../data/products";
+import { PRODUCT_CATEGORIES } from "../types/product";
 
 interface DashboardProps {
   currentView: string;
@@ -79,9 +79,9 @@ const Dashboard: React.FC<DashboardProps> = ({ currentView, onNavigate }) => {
 
   // Mock data for monthly movements
   const monthlyMovements = [
-    { label: 'Entradas', value: 156, color: 'bg-accent' },
-    { label: 'Salidas', value: 124, color: 'bg-primary' },
-    { label: 'Devoluciones', value: 12, color: 'bg-warning-500' },
+    { label: "Entradas", value: 156, color: "bg-accent" },
+    { label: "Salidas", value: 124, color: "bg-primary" },
+    { label: "Devoluciones", value: 12, color: "bg-warning-500" },
   ];
 
   const total = monthlyMovements.reduce((sum, item) => sum + item.value, 0);
@@ -193,9 +193,9 @@ const Dashboard: React.FC<DashboardProps> = ({ currentView, onNavigate }) => {
                   <div className="flex items-center gap-2">
                     <div 
                       className={`w-3 h-3 rounded-full ${
-                        index === 0 ? 'bg-primary' : 
-                        index === 1 ? 'bg-accent' : 
-                        'bg-warning-500'
+                        index === 0 ? "bg-primary" : 
+                        index === 1 ? "bg-accent" : 
+                        "bg-warning-500"
                       }`}
                     ></div>
                     <span className="text-sm text-gray-700">{item.label}</span>
@@ -213,25 +213,25 @@ const Dashboard: React.FC<DashboardProps> = ({ currentView, onNavigate }) => {
         <QuickAction
           title="Registrar Producto"
           icon={<PlusCircle size={32} />}
-          onClick={() => onNavigate('create')}
+          onClick={() => onNavigate("create")}
           color="bg-white hover:bg-primary/5"
         />
         <QuickAction
           title="Buscar Producto"
           icon={<Search size={32} />}
-          onClick={() => onNavigate('list')}
+          onClick={() => onNavigate("list")}
           color="bg-white hover:bg-accent/5"
         />
         <QuickAction
           title="Generar Reporte"
           icon={<FileText size={32} />}
-          onClick={() => onNavigate('reports')}
+          onClick={() => onNavigate("reports")}
           color="bg-white hover:bg-primary/5"
         />
         <QuickAction
           title="Configuración"
           icon={<Settings size={32} />}
-          onClick={() => onNavigate('settings')}
+          onClick={() => onNavigate("settings")}
           color="bg-white hover:bg-accent/5"
         />
       </div>

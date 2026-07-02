@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Save, User, Mail, Shield, Calendar } from 'lucide-react';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
-import { USER_ROLES } from '../types/user';
+import React, { useState } from "react";
+import { ArrowLeft, Save, User, Mail, Shield, Calendar } from "lucide-react";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import { USER_ROLES } from "../types/user";
 
 interface ProfileProps {
   currentView: string;
@@ -27,9 +27,9 @@ const Profile: React.FC<ProfileProps> = ({
     username: currentUser.username,
     email: currentUser.email,
     role: currentUser.role,
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
   });
   
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -45,7 +45,7 @@ const Profile: React.FC<ProfileProps> = ({
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
-        [field]: ''
+        [field]: ""
       }));
     }
   };
@@ -54,26 +54,26 @@ const Profile: React.FC<ProfileProps> = ({
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = 'El nombre de usuario es requerido';
+      newErrors.username = "El nombre de usuario es requerido";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'El email es requerido';
+      newErrors.email = "El email es requerido";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'El email no es válido';
+      newErrors.email = "El email no es válido";
     }
 
     if (formData.newPassword) {
       if (!formData.currentPassword) {
-        newErrors.currentPassword = 'Ingrese su contraseña actual para cambiarla';
+        newErrors.currentPassword = "Ingrese su contraseña actual para cambiarla";
       }
       
       if (formData.newPassword.length < 6) {
-        newErrors.newPassword = 'La nueva contraseña debe tener al menos 6 caracteres';
+        newErrors.newPassword = "La nueva contraseña debe tener al menos 6 caracteres";
       }
       
       if (formData.newPassword !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Las contraseñas no coinciden';
+        newErrors.confirmPassword = "Las contraseñas no coinciden";
       }
     }
 
@@ -105,17 +105,17 @@ const Profile: React.FC<ProfileProps> = ({
       // Clear password fields
       setFormData(prev => ({
         ...prev,
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
       }));
       
-      alert('Perfil actualizado exitosamente');
+      alert("Perfil actualizado exitosamente");
     }, 1000);
   };
 
   const handleBack = () => {
-    onNavigate('dashboard');
+    onNavigate("dashboard");
   };
 
   return (
@@ -154,7 +154,7 @@ const Profile: React.FC<ProfileProps> = ({
                 label="Nombre de Usuario"
                 type="text"
                 value={formData.username}
-                onChange={(e) => handleInputChange('username', e.target.value)}
+                onChange={(e) => handleInputChange("username", e.target.value)}
                 error={errors.username}
                 placeholder="Ingrese su nombre de usuario"
                 icon={<User size={18} />}
@@ -165,7 +165,7 @@ const Profile: React.FC<ProfileProps> = ({
                 label="Correo Electrónico"
                 type="email"
                 value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={(e) => handleInputChange("email", e.target.value)}
                 error={errors.email}
                 placeholder="Ingrese su email"
                 icon={<Mail size={18} />}
@@ -201,7 +201,7 @@ const Profile: React.FC<ProfileProps> = ({
                 </label>
                 <select
                   value={formData.role}
-                  onChange={(e) => handleInputChange('role', e.target.value)}
+                  onChange={(e) => handleInputChange("role", e.target.value)}
                   className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
                 >
                   {USER_ROLES.map((role) => (
@@ -219,10 +219,10 @@ const Profile: React.FC<ProfileProps> = ({
                 <div className="flex items-center gap-2 py-2 px-4 border border-gray-300 rounded-md bg-gray-100">
                   <Calendar size={18} className="text-gray-400" />
                   <span className="text-gray-500">
-                    {currentUser.createdAt.toLocaleDateString('es-ES', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
+                    {currentUser.createdAt.toLocaleDateString("es-ES", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
                     })}
                   </span>
                 </div>
@@ -243,7 +243,7 @@ const Profile: React.FC<ProfileProps> = ({
                 label="Contraseña Actual"
                 type="password"
                 value={formData.currentPassword}
-                onChange={(e) => handleInputChange('currentPassword', e.target.value)}
+                onChange={(e) => handleInputChange("currentPassword", e.target.value)}
                 error={errors.currentPassword}
                 placeholder="Ingrese su contraseña actual"
               />
@@ -252,7 +252,7 @@ const Profile: React.FC<ProfileProps> = ({
                 label="Nueva Contraseña"
                 type="password"
                 value={formData.newPassword}
-                onChange={(e) => handleInputChange('newPassword', e.target.value)}
+                onChange={(e) => handleInputChange("newPassword", e.target.value)}
                 error={errors.newPassword}
                 placeholder="Ingrese la nueva contraseña"
               />
@@ -261,7 +261,7 @@ const Profile: React.FC<ProfileProps> = ({
                 label="Confirmar Nueva Contraseña"
                 type="password"
                 value={formData.confirmPassword}
-                onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
                 error={errors.confirmPassword}
                 placeholder="Confirme la nueva contraseña"
               />

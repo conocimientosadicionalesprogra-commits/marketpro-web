@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Save, X, Tags } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { PRODUCT_CATEGORIES } from '../types/product';
+import React, { useState } from "react";
+import { Plus, Edit2, Trash2, Save, X, Tags } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { PRODUCT_CATEGORIES } from "../types/product";
 
 interface CategoriesProps {
   currentView: string;
@@ -29,23 +29,23 @@ const Categories: React.FC<CategoriesProps> = ({ currentView, onNavigate }) => {
 
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [newCategoryDescription, setNewCategoryDescription] = useState('');
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [newCategoryDescription, setNewCategoryDescription] = useState("");
   const [errors, setErrors] = useState<{ name?: string; description?: string }>({});
 
   const validateCategory = (name: string, description: string) => {
     const newErrors: { name?: string; description?: string } = {};
 
     if (!name.trim()) {
-      newErrors.name = 'El nombre de la categoría es requerido';
+      newErrors.name = "El nombre de la categoría es requerido";
     } else if (name.length < 2) {
-      newErrors.name = 'El nombre debe tener al menos 2 caracteres';
+      newErrors.name = "El nombre debe tener al menos 2 caracteres";
     } else if (categories.some(cat => cat.name.toLowerCase() === name.toLowerCase() && cat.id !== editingCategory)) {
-      newErrors.name = 'Ya existe una categoría con este nombre';
+      newErrors.name = "Ya existe una categoría con este nombre";
     }
 
     if (description && description.length > 200) {
-      newErrors.description = 'La descripción no puede exceder 200 caracteres';
+      newErrors.description = "La descripción no puede exceder 200 caracteres";
     }
 
     setErrors(newErrors);
@@ -65,8 +65,8 @@ const Categories: React.FC<CategoriesProps> = ({ currentView, onNavigate }) => {
     };
 
     setCategories([...categories, newCategory]);
-    setNewCategoryName('');
-    setNewCategoryDescription('');
+    setNewCategoryName("");
+    setNewCategoryDescription("");
     setIsAddingCategory(false);
     setErrors({});
   };
@@ -76,7 +76,7 @@ const Categories: React.FC<CategoriesProps> = ({ currentView, onNavigate }) => {
     if (category) {
       setEditingCategory(categoryId);
       setNewCategoryName(category.name);
-      setNewCategoryDescription(category.description || '');
+      setNewCategoryDescription(category.description || "");
       setErrors({});
     }
   };
@@ -97,8 +97,8 @@ const Categories: React.FC<CategoriesProps> = ({ currentView, onNavigate }) => {
     ));
 
     setEditingCategory(null);
-    setNewCategoryName('');
-    setNewCategoryDescription('');
+    setNewCategoryName("");
+    setNewCategoryDescription("");
     setErrors({});
   };
 
@@ -117,8 +117,8 @@ const Categories: React.FC<CategoriesProps> = ({ currentView, onNavigate }) => {
   const handleCancel = () => {
     setIsAddingCategory(false);
     setEditingCategory(null);
-    setNewCategoryName('');
-    setNewCategoryDescription('');
+    setNewCategoryName("");
+    setNewCategoryDescription("");
     setErrors({});
   };
 
@@ -228,7 +228,7 @@ const Categories: React.FC<CategoriesProps> = ({ currentView, onNavigate }) => {
                       />
                     ) : (
                       <div className="text-sm text-gray-500 max-w-xs truncate">
-                        {category.description || 'Sin descripción'}
+                        {category.description || "Sin descripción"}
                       </div>
                     )}
                   </td>

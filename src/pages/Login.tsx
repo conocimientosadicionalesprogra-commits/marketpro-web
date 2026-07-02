@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Shield } from 'lucide-react';
-import Button from '../components/ui/Button';
+
+import React, { useState } from "react";
+// Quitamos Shield de los imports ya que no lo usaremos aquí
+import Button from "../components/ui/Button";
 
 interface LoginProps {
   onLogin: (credentials: { username: string; password: string }) => void;
@@ -8,8 +9,8 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,12 +26,18 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="bg-primary-100 p-3 rounded-xl text-primary">
-            <Shield size={40} />
-          </div>
+        
+        {/* === SECCIÓN MODIFICADA: REEMPLAZO DEL ESCUDO POR TU LOGO === */}
+        <div className="flex justify-center mb-4">
+          <img 
+            src="./MarketPro.png" 
+            alt="Logo MarketPro" 
+            className="h-16 w-auto object-contain" 
+          />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">MarketPro</h2>
+        {/* ========================================================== */}
+
+        <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">MarketPro</h2>
         <p className="mt-2 text-center text-sm text-gray-600">Sistema de Gestión de Inventarios</p>
       </div>
 
@@ -73,7 +80,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
             <div className="text-sm text-right">
               <button
                 type="button"
-                onClick={() => onNavigate('forgot-password')}
+                onClick={() => onNavigate("forgot-password")}
                 className="font-medium text-primary hover:text-primary/80"
               >
                 ¿Olvidaste tu contraseña?
@@ -99,7 +106,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
             <div className="text-center mt-2">
               <button
                 type="button"
-                onClick={() => onNavigate('register')}
+                onClick={() => onNavigate("register")}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-blue-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
                 Crear una cuenta nueva

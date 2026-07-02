@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Mail, Lock, Key, CheckCircle, XCircle } from 'lucide-react';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
-import Logo from '../components/Logo';
-import { sampleUsers } from '../data/users';
+import React, { useState } from "react";
+import { ArrowLeft, Mail, Lock, Key, CheckCircle, XCircle } from "lucide-react";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import Logo from "../components/Logo";
+import { sampleUsers } from "../data/users";
 
 /**
  * PÁGINA DE RECUPERACIÓN DE CONTRASEÑA
@@ -36,22 +36,22 @@ interface ForgotPasswordProps {
 }
 
 // TIPOS DE PASOS EN EL PROCESO DE RECUPERACIÓN
-type Step = 'email' | 'code' | 'password' | 'success';
+type Step = "email" | "code" | "password" | "success";
 
 // INTERFAZ PARA MENSAJES DE ESTADO
 interface StatusMessage {
-  type: 'success' | 'error' | 'info';
+  type: "success" | "error" | "info";
   text: string;
 }
 
 const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
   // ESTADOS DEL COMPONENTE
-  const [currentStep, setCurrentStep] = useState<Step>('email'); // Paso actual del proceso
-  const [email, setEmail] = useState(''); // Email del usuario
-  const [securityCode, setSecurityCode] = useState(''); // Código de seguridad ingresado
-  const [generatedCode, setGeneratedCode] = useState(''); // Código generado por el sistema
-  const [newPassword, setNewPassword] = useState(''); // Nueva contraseña
-  const [confirmPassword, setConfirmPassword] = useState(''); // Confirmación de contraseña
+  const [currentStep, setCurrentStep] = useState<Step>("email"); // Paso actual del proceso
+  const [email, setEmail] = useState(""); // Email del usuario
+  const [securityCode, setSecurityCode] = useState(""); // Código de seguridad ingresado
+  const [generatedCode, setGeneratedCode] = useState(""); // Código generado por el sistema
+  const [newPassword, setNewPassword] = useState(""); // Nueva contraseña
+  const [confirmPassword, setConfirmPassword] = useState(""); // Confirmación de contraseña
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
   const [message, setMessage] = useState<StatusMessage | null>(null); // Mensajes de estado
   const [errors, setErrors] = useState<{ [key: string]: string }>({}); // Errores de validación
@@ -67,7 +67,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
-        [field]: ''
+        [field]: ""
       }));
     }
   };
@@ -81,7 +81,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
    * @param text - Texto del mensaje
    * @param duration - Duración en milisegundos (por defecto 5000)
    */
-  const showMessage = (type: StatusMessage['type'], text: string, duration = 5000) => {
+  const showMessage = (type: StatusMessage["type"], text: string, duration = 5000) => {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), duration);
   };
@@ -133,12 +133,12 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
     
     // VALIDAR EMAIL
     if (!email.trim()) {
-      setErrors({ email: 'El email es requerido' });
+      setErrors({ email: "El email es requerido" });
       return;
     }
     
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setErrors({ email: 'Ingrese un email válido' });
+      setErrors({ email: "Ingrese un email válido" });
       return;
     }
     
@@ -148,7 +148,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
     );
     
     if (!userExists) {
-      setErrors({ email: 'No existe una cuenta asociada a este email' });
+      setErrors({ email: "No existe una cuenta asociada a este email" });
       return;
     }
     
@@ -163,12 +163,12 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
       await simulateEmailSending(email, code);
       
       // AVANZAR AL SIGUIENTE PASO
-      setCurrentStep('code');
-      showMessage('success', `Código de seguridad enviado a ${email}`, 7000);
+      setCurrentStep("code");
+      showMessage("success", `Código de seguridad enviado a ${email}`, 7000);
       
     } catch (error) {
-      console.error('Error enviando email:', error);
-      showMessage('error', 'Error al enviar el código. Inténtelo de nuevo.');
+      console.error("Error enviando email:", error);
+      showMessage("error", "Error al enviar el código. Inténtelo de nuevo.");
     } finally {
       setIsLoading(false);
     }
@@ -187,17 +187,17 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
     
     // VALIDAR CÓDIGO
     if (!securityCode.trim()) {
-      setErrors({ code: 'El código de seguridad es requerido' });
+      setErrors({ code: "El código de seguridad es requerido" });
       return;
     }
     
     if (securityCode.length !== 6) {
-      setErrors({ code: 'El código debe tener 6 dígitos' });
+      setErrors({ code: "El código debe tener 6 dígitos" });
       return;
     }
     
     if (!/^\d{6}$/.test(securityCode)) {
-      setErrors({ code: 'El código solo debe contener números' });
+      setErrors({ code: "El código solo debe contener números" });
       return;
     }
     
@@ -209,17 +209,17 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
       
       // VERIFICAR QUE EL CÓDIGO COINCIDA
       if (securityCode !== generatedCode) {
-        setErrors({ code: 'Código de seguridad incorrecto' });
+        setErrors({ code: "Código de seguridad incorrecto" });
         return;
       }
       
       // AVANZAR AL SIGUIENTE PASO
-      setCurrentStep('password');
-      showMessage('success', 'Código verificado correctamente');
-      
+      setCurrentStep("password");
+      showMessage("success", "Código verificado correctamente");
+
     } catch (error) {
-      console.error('Error verificando código:', error);
-      showMessage('error', 'Error al verificar el código. Inténtelo de nuevo.');
+      console.error("Error verificando código:", error);
+      showMessage("error", "Error al verificar el código. Inténtelo de nuevo.");
     } finally {
       setIsLoading(false);
     }
@@ -239,18 +239,18 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
     
     // VALIDAR NUEVA CONTRASEÑA
     if (!newPassword) {
-      newErrors.newPassword = 'La nueva contraseña es requerida';
+      newErrors.newPassword = "La nueva contraseña es requerida";
     } else if (newPassword.length < 6) {
-      newErrors.newPassword = 'La contraseña debe tener al menos 6 caracteres';
+      newErrors.newPassword = "La contraseña debe tener al menos 6 caracteres";
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(newPassword)) {
-      newErrors.newPassword = 'La contraseña debe contener al menos una mayúscula, una minúscula y un número';
+      newErrors.newPassword = "La contraseña debe contener al menos una mayúscula, una minúscula y un número";
     }
     
     // VALIDAR CONFIRMACIÓN DE CONTRASEÑA
     if (!confirmPassword) {
-      newErrors.confirmPassword = 'Confirme la nueva contraseña';
+      newErrors.confirmPassword = "Confirme la nueva contraseña";
     } else if (newPassword !== confirmPassword) {
-      newErrors.confirmPassword = 'Las contraseñas no coinciden';
+      newErrors.confirmPassword = "Las contraseñas no coinciden";
     }
     
     if (Object.keys(newErrors).length > 0) {
@@ -268,11 +268,11 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
       console.log(`🔐 Contraseña actualizada para: ${email}`);
       
       // AVANZAR AL PASO FINAL
-      setCurrentStep('success');
+      setCurrentStep("success");
       
     } catch (error) {
-      console.error('Error actualizando contraseña:', error);
-      showMessage('error', 'Error al actualizar la contraseña. Inténtelo de nuevo.');
+      console.error("Error actualizando contraseña:", error);
+      showMessage("error", "Error al actualizar la contraseña. Inténtelo de nuevo.");
     } finally {
       setIsLoading(false);
     }
@@ -294,11 +294,11 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
       // SIMULAR REENVÍO DE EMAIL
       await simulateEmailSending(email, newCode);
       
-      showMessage('info', 'Nuevo código enviado a su email');
+      showMessage("info", "Nuevo código enviado a su email");
       
     } catch (error) {
-      console.error('Error reenviando código:', error);
-      showMessage('error', 'Error al reenviar el código. Inténtelo de nuevo.');
+      console.error("Error reenviando código:", error);
+      showMessage("error", "Error al reenviar el código. Inténtelo de nuevo.");
     } finally {
       setIsLoading(false);
     }
@@ -311,7 +311,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
    */
   const renderStepContent = () => {
     switch (currentStep) {
-      case 'email':
+      case "email":
         return (
           <form onSubmit={handleEmailSubmit} className="space-y-4">
             <div className="text-center mb-6">
@@ -329,7 +329,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                clearError('email');
+                clearError("email");
               }}
               error={errors.email}
               placeholder="Ingrese su email"
@@ -349,7 +349,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
           </form>
         );
 
-      case 'code':
+      case "code":
         return (
           <form onSubmit={handleCodeSubmit} className="space-y-4">
             <div className="text-center mb-6">
@@ -370,9 +370,9 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
               value={securityCode}
               onChange={(e) => {
                 // SOLO PERMITIR NÚMEROS Y MÁXIMO 6 DÍGITOS
-                const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                const value = e.target.value.replace(/\D/g, "").slice(0, 6);
                 setSecurityCode(value);
-                clearError('code');
+                clearError("code");
               }}
               error={errors.code}
               placeholder="123456"
@@ -407,7 +407,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
           </form>
         );
 
-      case 'password':
+      case "password":
         return (
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <div className="text-center mb-6">
@@ -425,7 +425,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
               value={newPassword}
               onChange={(e) => {
                 setNewPassword(e.target.value);
-                clearError('newPassword');
+                clearError("newPassword");
               }}
               error={errors.newPassword}
               placeholder="Ingrese su nueva contraseña"
@@ -440,7 +440,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
               value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
-                clearError('confirmPassword');
+                clearError("confirmPassword");
               }}
               error={errors.confirmPassword}
               placeholder="Confirme su nueva contraseña"
@@ -469,7 +469,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
           </form>
         );
 
-      case 'success':
+      case "success":
         return (
           <div className="text-center space-y-6">
             <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto">
@@ -506,7 +506,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
       <div 
         className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden"
         style={{ 
-          boxShadow: '0 10px 25px -5px rgba(0, 51, 102, 0.1), 0 8px 10px -6px rgba(0, 51, 102, 0.05)'
+          boxShadow: "0 10px 25px -5px rgba(0, 51, 102, 0.1), 0 8px 10px -6px rgba(0, 51, 102, 0.05)"
         }}
       >
         {/* HEADER CON LOGO */}
@@ -523,15 +523,15 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
           {/* MENSAJES DE ESTADO */}
           {message && (
             <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
-              message.type === 'success' 
-                ? 'bg-success-50 border border-success-200 text-success-700' 
-                : message.type === 'error'
-                ? 'bg-error-50 border border-error-200 text-error-700'
-                : 'bg-blue-50 border border-blue-200 text-blue-700'
+              message.type === "success" 
+                ? "bg-success-50 border border-success-200 text-success-700" 
+                : message.type === "error"
+                ? "bg-error-50 border border-error-200 text-error-700"
+                : "bg-blue-50 border border-blue-200 text-blue-700"
             }`}>
-              {message.type === 'success' ? (
+              {message.type === "success" ? (
                 <CheckCircle size={20} />
-              ) : message.type === 'error' ? (
+              ) : message.type === "error" ? (
                 <XCircle size={20} />
               ) : (
                 <Mail size={20} />
@@ -544,7 +544,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBackToLogin }) => {
           {renderStepContent()}
 
           {/* BOTÓN PARA REGRESAR AL LOGIN */}
-          {currentStep !== 'success' && (
+          {currentStep !== "success" && (
             <div className="mt-6 pt-4 border-t border-gray-200">
               <button
                 onClick={onBackToLogin}

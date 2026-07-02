@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Save, CheckCircle, XCircle, ArrowUpCircle } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { sampleProducts } from '../data/products';
-import { ENTRY_REASONS } from '../types/movement';
-import type { Movement, EntryReason } from '../types/movement';
+import React, { useState } from "react";
+import { ArrowLeft, Save, CheckCircle, XCircle, ArrowUpCircle } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { sampleProducts } from "../data/products";
+import { ENTRY_REASONS } from "../types/movement";
+import type { Movement, EntryReason } from "../types/movement";
 
 interface RegisterEntryProps {
   currentView: string;
@@ -13,18 +13,18 @@ interface RegisterEntryProps {
 
 const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }) => {
   const [formData, setFormData] = useState({
-    productId: '',
+    productId: "",
     quantity: 0,
-    reason: 'purchase' as EntryReason,
-    reference: '',
-    supplier: '',
-    notes: '',
+    reason: "purchase" as EntryReason,
+    reference: "",
+    supplier: "",
+    notes: "",
     unitCost: 0,
   });
   
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const selectedProduct = sampleProducts.find(p => p.id === formData.productId);
 
@@ -38,7 +38,7 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
-        [field]: ''
+        [field]: ""
       }));
     }
   };
@@ -47,23 +47,23 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.productId) {
-      newErrors.productId = 'Debe seleccionar un producto';
+      newErrors.productId = "Debe seleccionar un producto";
     }
 
     if (!formData.quantity || formData.quantity <= 0) {
-      newErrors.quantity = 'La cantidad debe ser mayor a 0';
+      newErrors.quantity = "La cantidad debe ser mayor a 0";
     }
 
     if (!formData.reason) {
-      newErrors.reason = 'Debe seleccionar un motivo';
+      newErrors.reason = "Debe seleccionar un motivo";
     }
 
-    if (formData.reason === 'purchase' && !formData.supplier.trim()) {
-      newErrors.supplier = 'El proveedor es requerido para compras';
+    if (formData.reason === "purchase" && !formData.supplier.trim()) {
+      newErrors.supplier = "El proveedor es requerido para compras";
     }
 
     if (formData.unitCost < 0) {
-      newErrors.unitCost = 'El costo unitario no puede ser negativo';
+      newErrors.unitCost = "El costo unitario no puede ser negativo";
     }
 
     setErrors(newErrors);
@@ -84,10 +84,10 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const newEntry: Partial<Movement> = {
-        type: 'entry',
+        type: "entry",
         productId: formData.productId,
-        productName: selectedProduct?.name || '',
-        productSku: selectedProduct?.sku || '',
+        productName: selectedProduct?.name || "",
+        productSku: selectedProduct?.sku || "",
         quantity: formData.quantity,
         reason: formData.reason,
         reference: formData.reference || undefined,
@@ -95,26 +95,26 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
         notes: formData.notes || undefined,
         unitCost: formData.unitCost || undefined,
         totalCost: formData.unitCost ? formData.unitCost * formData.quantity : undefined,
-        createdBy: 'admin',
+        createdBy: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
-      console.log('Registering entry:', newEntry);
+      console.log("Registering entry:", newEntry);
       
       setMessage({
-        type: 'success',
+        type: "success",
         text: `Entrada registrada exitosamente. Stock actualizado: +${formData.quantity} unidades.`
       });
 
       // Reset form
       setFormData({
-        productId: '',
+        productId: "",
         quantity: 0,
-        reason: 'purchase',
-        reference: '',
-        supplier: '',
-        notes: '',
+        reason: "purchase",
+        reference: "",
+        supplier: "",
+        notes: "",
         unitCost: 0,
       });
 
@@ -124,10 +124,10 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
       }, 3000);
 
     } catch (error) {
-      console.error('Error registering entry:', error);
+      console.error("Error registering entry:", error);
       setMessage({
-        type: 'error',
-        text: 'Error al registrar la entrada. Por favor, inténtelo de nuevo.'
+        type: "error",
+        text: "Error al registrar la entrada. Por favor, inténtelo de nuevo."
       });
 
       setTimeout(() => setMessage(null), 5000);
@@ -137,7 +137,7 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
   };
 
   const handleBack = () => {
-    onNavigate('entries-list');
+    onNavigate("entries-list");
   };
 
   const totalCost = formData.unitCost * formData.quantity;
@@ -155,11 +155,11 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
       {/* Success/Error Messages */}
       {message && (
         <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
-          message.type === 'success' 
-            ? 'bg-success-50 border border-success-200 text-success-700' 
-            : 'bg-error-50 border border-error-200 text-error-700'
+          message.type === "success" 
+            ? "bg-success-50 border border-success-200 text-success-700" 
+            : "bg-error-50 border border-error-200 text-error-700"
         }`}>
-          {message.type === 'success' ? (
+          {message.type === "success" ? (
             <CheckCircle size={20} />
           ) : (
             <XCircle size={20} />
@@ -183,7 +183,7 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
               </label>
               <select
                 value={formData.productId}
-                onChange={(e) => handleInputChange('productId', e.target.value)}
+                onChange={(e) => handleInputChange("productId", e.target.value)}
                 className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               >
                 <option value="">Seleccione un producto</option>
@@ -203,8 +203,8 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
               label="Cantidad *"
               type="number"
               min="1"
-              value={formData.quantity || ''}
-              onChange={(e) => handleInputChange('quantity', parseInt(e.target.value) || 0)}
+              value={formData.quantity || ""}
+              onChange={(e) => handleInputChange("quantity", parseInt(e.target.value) || 0)}
               error={errors.quantity}
               placeholder="Cantidad a ingresar"
             />
@@ -216,7 +216,7 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
               </label>
               <select
                 value={formData.reason}
-                onChange={(e) => handleInputChange('reason', e.target.value)}
+                onChange={(e) => handleInputChange("reason", e.target.value)}
                 className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               >
                 {ENTRY_REASONS.map((reason) => (
@@ -234,16 +234,16 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
             <Input
               label="Referencia/Documento"
               value={formData.reference}
-              onChange={(e) => handleInputChange('reference', e.target.value)}
+              onChange={(e) => handleInputChange("reference", e.target.value)}
               error={errors.reference}
               placeholder="Número de factura, orden, etc."
             />
 
             {/* Supplier */}
             <Input
-              label={`Proveedor ${formData.reason === 'purchase' ? '*' : ''}`}
+              label={`Proveedor ${formData.reason === "purchase" ? "*" : ""}`}
               value={formData.supplier}
-              onChange={(e) => handleInputChange('supplier', e.target.value)}
+              onChange={(e) => handleInputChange("supplier", e.target.value)}
               error={errors.supplier}
               placeholder="Nombre del proveedor"
             />
@@ -254,8 +254,8 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
               type="number"
               step="0.01"
               min="0"
-              value={formData.unitCost || ''}
-              onChange={(e) => handleInputChange('unitCost', parseFloat(e.target.value) || 0)}
+              value={formData.unitCost || ""}
+              onChange={(e) => handleInputChange("unitCost", parseFloat(e.target.value) || 0)}
               error={errors.unitCost}
               placeholder="0.00"
             />
@@ -268,7 +268,7 @@ const RegisterEntry: React.FC<RegisterEntryProps> = ({ currentView, onNavigate }
             </label>
             <textarea
               value={formData.notes}
-              onChange={(e) => handleInputChange('notes', e.target.value)}
+              onChange={(e) => handleInputChange("notes", e.target.value)}
               rows={3}
               className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               placeholder="Observaciones adicionales..."

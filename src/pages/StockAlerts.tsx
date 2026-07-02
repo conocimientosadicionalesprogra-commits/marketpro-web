@@ -1,7 +1,7 @@
-import React from 'react';
-import { AlertTriangle, ExternalLink, PackagePlus } from 'lucide-react';
-import Button from '../components/ui/Button';
-import { sampleProducts } from '../data/products';
+import React from "react";
+import { AlertTriangle, ExternalLink, PackagePlus } from "lucide-react";
+import Button from "../components/ui/Button";
+import { sampleProducts } from "../data/products";
 
 interface StockAlertsProps {
   currentView: string;
@@ -13,7 +13,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({ currentView, onNavigate }) =>
   const lowStockProducts = sampleProducts.map(product => ({
     ...product,
     minStock: 50, // Example minimum stock level
-    status: product.stock < 30 ? 'critical' : product.stock < 50 ? 'warning' : 'ok'
+    status: product.stock < 30 ? "critical" : product.stock < 50 ? "warning" : "ok"
   })).filter(product => product.stock < product.minStock);
 
   return (
@@ -42,10 +42,10 @@ const StockAlerts: React.FC<StockAlertsProps> = ({ currentView, onNavigate }) =>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`
                     px-2 py-1 inline-flex items-center gap-1 text-xs leading-5 font-semibold rounded-full
-                    ${product.status === 'critical' ? 'bg-error-100 text-error-700' : 'bg-warning-100 text-warning-700'}
+                    ${product.status === "critical" ? "bg-error-100 text-error-700" : "bg-warning-100 text-warning-700"}
                   `}>
                     <AlertTriangle size={12} />
-                    {product.status === 'critical' ? 'Crítico' : 'Bajo'}
+                    {product.status === "critical" ? "Crítico" : "Bajo" }
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -54,7 +54,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({ currentView, onNavigate }) =>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className={`text-sm font-medium ${
-                    product.status === 'critical' ? 'text-error-600' : 'text-warning-600'
+                    product.status === "critical" ? "text-error-600" : "text-warning-600"
                   }`}>
                     {product.stock} unidades
                   </div>
@@ -69,7 +69,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({ currentView, onNavigate }) =>
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => console.log('View details:', product.id)}
+                      onClick={() => console.log("View details:", product.id)}
                       className="text-primary hover:text-primary/80"
                     >
                       <ExternalLink size={16} />
@@ -77,7 +77,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({ currentView, onNavigate }) =>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => console.log('Restock:', product.id)}
+                      onClick={() => console.log("Restock:", product.id)}
                       className="flex items-center gap-1"
                     >
                       <PackagePlus size={16} />

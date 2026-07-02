@@ -1,4 +1,4 @@
-export type UserRole = 'Administrador' | 'Bodega' | 'Cajero';
+export type UserRole = "Administrador" | "Bodega" | "Cajero";
 
 export interface User {
   id: string;
@@ -9,4 +9,4 @@ export interface User {
   createdAt: Date;
 }
 
-export const USER_ROLES: UserRole[] = ['Administrador', 'Bodega', 'Cajero'];
+export const USER_ROLES: UserRole[] = ["Administrador", "Bodega", "Cajero"];

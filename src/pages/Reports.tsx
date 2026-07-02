@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { FileSpreadsheet, Download, Search } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { sampleProducts } from '../data/products';
-import { PRODUCT_CATEGORIES } from '../types/product';
-import { formatDate } from '../utils/formatDate';
+import React, { useState } from "react";
+import { FileSpreadsheet, Download, Search } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { sampleProducts } from "../data/products";
+import { PRODUCT_CATEGORIES } from "../types/product";
+import { formatDate } from "../utils/formatDate";
 
 /**
  * PÁGINA DE REPORTES DE INVENTARIO
@@ -36,10 +36,10 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
   // ESTADOS DEL COMPONENTE
   // Estos estados controlan los filtros y la funcionalidad de la página
   
-  const [startDate, setStartDate] = useState(''); // Fecha de inicio para el filtro
-  const [endDate, setEndDate] = useState(''); // Fecha de fin para el filtro
-  const [selectedCategory, setSelectedCategory] = useState(''); // Categoría seleccionada (vacío = todas)
-  const [searchQuery, setSearchQuery] = useState(''); // Texto de búsqueda para filtrar productos
+  const [startDate, setStartDate] = useState(""); // Fecha de inicio para el filtro
+  const [endDate, setEndDate] = useState(""); // Fecha de fin para el filtro
+  const [selectedCategory, setSelectedCategory] = useState(""); // Categoría seleccionada (vacío = todas)
+  const [searchQuery, setSearchQuery] = useState(""); // Texto de búsqueda para filtrar productos
 
   /**
    * FUNCIÓN PARA FILTRAR PRODUCTOS
@@ -74,15 +74,15 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
    * Esta función maneja la generación de reportes en diferentes formatos.
    * Obtiene los productos filtrados y simula la generación del archivo.
    * 
-   * @param format - Formato del reporte ('pdf' o 'excel')
+   * @param format - Formato del reporte ("pdf" o "excel")
    */
-  const handleGenerateReport = (format: 'pdf' | 'excel') => {
+  const handleGenerateReport = (format: "pdf" | "excel") => {
     // OBTENER PRODUCTOS FILTRADOS
     const filteredProducts = getFilteredProducts();
     
     // VALIDAR QUE HAY PRODUCTOS PARA REPORTAR
     if (filteredProducts.length === 0) {
-      alert('No hay productos que coincidan con los filtros seleccionados.');
+      alert("No hay productos que coincidan con los filtros seleccionados.");
       return;
     }
 
@@ -90,17 +90,17 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
     const reportData = {
       // Información de filtros aplicados
       filters: {
-        startDate: startDate || 'No especificada',
-        endDate: endDate || 'No especificada',
-        category: selectedCategory || 'Todas las categorías',
-        searchQuery: searchQuery || 'Sin búsqueda específica'
+        startDate: startDate || "No especificada",
+        endDate: endDate || "No especificada",
+        category: selectedCategory || "Todas las categorías",
+        searchQuery: searchQuery || "Sin búsqueda específica"
       },
       // Productos que se incluirán en el reporte
       products: filteredProducts,
       // Metadatos del reporte
       metadata: {
         totalProducts: filteredProducts.length,
-        generatedAt: new Date().toLocaleString('es-ES'),
+        generatedAt: new Date().toLocaleString("es-ES"),
         format: format.toUpperCase()
       }
     };
@@ -132,14 +132,14 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
    * @param format - Formato del archivo
    * @param data - Datos del reporte
    */
-  const simulateFileDownload = (format: 'pdf' | 'excel', data: any) => {
+  const simulateFileDownload = (format: "pdf" | "excel", data: any) => {
     // CREAR NOMBRE DEL ARCHIVO CON TIMESTAMP
     const timestamp = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-    const fileName = `reporte_inventario_${timestamp}.${format === 'excel' ? 'xlsx' : 'pdf'}`;
+    const fileName = `reporte_inventario_${timestamp}.${format === "excel" ? "xlsx" : "pdf"}`;
     
     // SIMULAR PROCESO DE DESCARGA
     console.log(`Descargando archivo: ${fileName}`);
-    console.log('Contenido del archivo:', data);
+    console.log("Contenido del archivo:", data);
     
     // En una implementación real, aquí se usaría algo como:
     // - Para PDF: jsPDF, PDFKit, o una API backend
@@ -152,10 +152,10 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
    * Resetea todos los filtros a sus valores por defecto
    */
   const clearAllFilters = () => {
-    setStartDate('');
-    setEndDate('');
-    setSelectedCategory('');
-    setSearchQuery('');
+    setStartDate("");
+    setEndDate("");
+    setSelectedCategory("");
+    setSearchQuery("");
   };
 
   // OBTENER PRODUCTOS FILTRADOS PARA MOSTRAR EN LA VISTA PREVIA
@@ -253,7 +253,7 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
             {/* BOTÓN PARA EXPORTAR A PDF */}
             <Button
               variant="outline"
-              onClick={() => handleGenerateReport('pdf')}
+              onClick={() => handleGenerateReport("pdf")}
               className="flex items-center gap-2"
               disabled={filteredProducts.length === 0}
             >
@@ -263,7 +263,7 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
             
             {/* BOTÓN PARA EXPORTAR A EXCEL */}
             <Button
-              onClick={() => handleGenerateReport('excel')}
+              onClick={() => handleGenerateReport("excel")}
               className="flex items-center gap-2"
               disabled={filteredProducts.length === 0}
             >
@@ -354,7 +354,7 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
                     {/* FECHA DE VENCIMIENTO */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
-                        {product.expiryDate ? formatDate(product.expiryDate) : 'N/A'}
+                        {product.expiryDate ? formatDate(product.expiryDate) : "N/A"}
                       </div>
                     </td>
                   </tr>
@@ -368,8 +368,8 @@ const Reports: React.FC<ReportsProps> = ({ currentView, onNavigate }) => {
                       <p className="text-lg font-medium">No hay productos para mostrar</p>
                       <p className="text-sm">
                         {searchQuery || selectedCategory 
-                          ? 'Intenta ajustar los filtros para ver más resultados'
-                          : 'No hay productos registrados en el sistema'
+                          ? "Intenta ajustar los filtros para ver más resultados"
+                          : "No hay productos registrados en el sistema"
                         }
                       </p>
                     </div>

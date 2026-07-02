@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { pl } from "date-fns/locale/pl";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -12,14 +13,14 @@ const Input: React.FC<InputProps> = ({
   label,
   error,
   fullWidth = true,
-  className = '',
+  className = "",
   icon,
-  type = 'text',
+  type = "text",
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const inputType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
-  const widthClass = fullWidth ? 'w-full' : '';
+  const inputType = type === "password" ? (showPassword ? "text" : "password") : type;
+  const widthClass = fullWidth ? "w-full" : "";
   
   return (
     <div className={`mb-4 ${widthClass}`}>
@@ -38,20 +39,20 @@ const Input: React.FC<InputProps> = ({
           type={inputType}
           className={`
             py-2 px-4 
-            ${icon ? 'pl-10' : ''}
+            ${icon ? "pl-10" : ""}
             border border-gray-300 rounded-md
             bg-white text-gray-900
             focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
             transition-all duration-200
             placeholder:text-gray-400
             disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed
-            ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''}
+            ${error ? "border-red-500 focus:ring-red-500 focus:border-red-500" : ""}
             ${widthClass}
             ${className}
           `}
           {...props}
         />
-        {type === 'password' && (
+        {type === "password" && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}

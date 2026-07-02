@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { User, Lock } from 'lucide-react';
-import Input from './ui/Input';
-import Button from './ui/Button';
-
+import React, { useState } from "react";
+import { User, Lock } from "lucide-react";
+import Input from "./ui/Input";
+import Button from "./ui/Button";
+import Logo from "./Logo";
 interface LoginFormProps {
   onSubmit: (credentials: { username: string; password: string }) => void;
   onForgotPassword: () => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,13 +22,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
     
     // Simple validation
     if (!username.trim()) {
-      newErrors.username = 'El usuario es requerido';
+      newErrors.username = "El usuario es requerido";
     }
     
     if (!password) {
-      newErrors.password = 'La contraseña es requerida';
+      newErrors.password = "La contraseña es requerida";
     } else if (password.length < 6) {
-      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
     }
     
     setErrors(newErrors);
@@ -46,6 +46,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
   };
 
   return (
+
+    <div className="w-full max-w-md mx-auto">
+      <div className="flex justify-center mb-6">
+        <Logo className="h-16 w-auto" />
+      </div>
     <form onSubmit={handleSubmit} className="space-y-4 w-full">
       <Input
         label="Usuario / Email"
@@ -93,6 +98,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, onForgotPassword }) => 
         Iniciar Sesión
       </Button>
     </form>
+    </div>
   );
 };
 

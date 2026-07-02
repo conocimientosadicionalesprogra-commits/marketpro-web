@@ -11,11 +11,11 @@ export interface Product {
 }
 
 export const PRODUCT_CATEGORIES = [
-  'Electrónicos',
-  'Ropa',
-  'Alimentos',
-  'Bebidas',
-  'Hogar',
-  'Oficina',
-  'Otros'
+  "Electrónicos",
+  "Ropa",
+  "Alimentos",
+  "Bebidas",
+  "Hogar",
+  "Oficina",
+  "Otros"
 ] as const;

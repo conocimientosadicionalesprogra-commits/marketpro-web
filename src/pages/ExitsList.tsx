@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Filter, ArrowDownCircle, Eye } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { sampleMovements } from '../data/movements';
-import { EXIT_REASONS } from '../types/movement';
-import { formatDate } from '../utils/formatDate';
+import React, { useState, useMemo } from "react";
+import { Search, Filter, ArrowDownCircle, Eye } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { sampleMovements } from "../data/movements";
+import { EXIT_REASONS } from "../types/movement";
+import { formatDate } from "../utils/formatDate";
 
 interface ExitsListProps {
   currentView: string;
@@ -12,13 +12,13 @@ interface ExitsListProps {
 }
 
 const ExitsList: React.FC<ExitsListProps> = ({ currentView, onNavigate }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedReason, setSelectedReason] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedReason, setSelectedReason] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Filter only exit movements
-  const exits = sampleMovements.filter(movement => movement.type === 'exit');
+  const exits = sampleMovements.filter(movement => movement.type === "exit");
 
   // Filter and search logic
   const filteredExits = useMemo(() => {
@@ -43,10 +43,10 @@ const ExitsList: React.FC<ExitsListProps> = ({ currentView, onNavigate }) => {
   }, [exits, searchQuery, selectedReason, startDate, endDate]);
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedReason('');
-    setStartDate('');
-    setEndDate('');
+    setSearchQuery("");
+    setSelectedReason("");
+    setStartDate("");
+    setEndDate("");
   };
 
   const getReasonLabel = (reason: string) => {
@@ -56,20 +56,20 @@ const ExitsList: React.FC<ExitsListProps> = ({ currentView, onNavigate }) => {
 
   const getReasonColor = (reason: string) => {
     switch (reason) {
-      case 'sale':
-        return 'bg-success-100 text-success-700';
-      case 'internal_use':
-        return 'bg-primary/10 text-primary';
-      case 'damage':
-        return 'bg-error-100 text-error-700';
-      case 'obsolescence':
-        return 'bg-warning-100 text-warning-700';
-      case 'theft':
-        return 'bg-error-100 text-error-700';
-      case 'adjustment':
-        return 'bg-accent/10 text-accent';
+      case "sale":
+        return "bg-success-100 text-success-700";
+      case "internal_use":
+        return "bg-primary/10 text-primary";
+      case "damage":
+        return "bg-error-100 text-error-700";
+      case "obsolescence":
+        return "bg-warning-100 text-warning-700";
+      case "theft":
+        return "bg-error-100 text-error-700";
+      case "adjustment":
+        return "bg-accent/10 text-accent";
       default:
-        return 'bg-gray-100 text-gray-700';
+        return "bg-gray-100 text-gray-700";
     }
   };
 
@@ -86,7 +86,7 @@ const ExitsList: React.FC<ExitsListProps> = ({ currentView, onNavigate }) => {
             <h1 className="text-2xl font-bold text-gray-900">Salidas de Inventario</h1>
           </div>
           <Button
-            onClick={() => onNavigate('register-exit')}
+            onClick={() => onNavigate("register-exit")}
             className="flex items-center gap-2"
           >
             <ArrowDownCircle size={18} />
@@ -213,21 +213,21 @@ const ExitsList: React.FC<ExitsListProps> = ({ currentView, onNavigate }) => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{exit.reference || '-'}</div>
+                      <div className="text-sm text-gray-900">{exit.reference || "-"}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{exit.customer || '-'}</div>
+                      <div className="text-sm text-gray-900">{exit.customer || "-"}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {exit.totalCost ? `$${exit.totalCost.toLocaleString()}` : '-'}
+                        {exit.totalCost ? `$${exit.totalCost.toLocaleString()}` : "-"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => console.log('View details:', exit.id)}
+                        onClick={() => console.log("View details:", exit.id)}
                         className="text-primary hover:text-primary/80"
                       >
                         <Eye size={16} />

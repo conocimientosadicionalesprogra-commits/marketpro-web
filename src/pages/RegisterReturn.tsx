@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Save, CheckCircle, XCircle, RotateCcw } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { sampleProducts } from '../data/products';
-import { RETURN_REASONS } from '../types/movement';
-import type { Movement, ReturnReason } from '../types/movement';
+import React, { useState } from "react";
+import { ArrowLeft, Save, CheckCircle, XCircle, RotateCcw } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { sampleProducts } from "../data/products";
+import { RETURN_REASONS } from "../types/movement";
+import type { Movement, ReturnReason } from "../types/movement";
 
 interface RegisterReturnProps {
   currentView: string;
@@ -13,20 +13,20 @@ interface RegisterReturnProps {
 
 const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate }) => {
   const [formData, setFormData] = useState({
-    productId: '',
+    productId: "",
     quantity: 0,
-    reason: 'customer_return' as ReturnReason,
-    reference: '',
-    customer: '',
-    supplier: '',
-    notes: '',
+    reason: "customer_return" as ReturnReason,
+    reference: "",
+    customer: "",
+    supplier: "",
+    notes: "",
     unitCost: 0,
-    returnType: 'increase', // 'increase' or 'decrease'
+    returnType: "increase", // "increase" or "decrease"
   });
   
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const selectedProduct = sampleProducts.find(p => p.id === formData.productId);
 
@@ -40,7 +40,7 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
     if (errors[field]) {
       setErrors(prev => ({
         ...prev,
-        [field]: ''
+        [field]: ""
       }));
     }
   };
@@ -49,27 +49,27 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.productId) {
-      newErrors.productId = 'Debe seleccionar un producto';
+      newErrors.productId = "Debe seleccionar un producto";
     }
 
     if (!formData.quantity || formData.quantity <= 0) {
-      newErrors.quantity = 'La cantidad debe ser mayor a 0';
+      newErrors.quantity = "La cantidad debe ser mayor a 0";
     }
 
     if (!formData.reason) {
-      newErrors.reason = 'Debe seleccionar un motivo';
+      newErrors.reason = "Debe seleccionar un motivo";
     }
 
-    if (['customer_return'].includes(formData.reason) && !formData.customer.trim()) {
-      newErrors.customer = 'El cliente es requerido para este tipo de devolución';
+    if (["customer_return"].includes(formData.reason) && !formData.customer.trim()) {
+      newErrors.customer = "El cliente es requerido para este tipo de devolución";
     }
 
-    if (['supplier_return'].includes(formData.reason) && !formData.supplier.trim()) {
-      newErrors.supplier = 'El proveedor es requerido para este tipo de devolución';
+    if (["supplier_return"].includes(formData.reason) && !formData.supplier.trim()) {
+      newErrors.supplier = "El proveedor es requerido para este tipo de devolución";
     }
 
     if (formData.unitCost < 0) {
-      newErrors.unitCost = 'El costo unitario no puede ser negativo';
+      newErrors.unitCost = "El costo unitario no puede ser negativo";
     }
 
     setErrors(newErrors);
@@ -90,10 +90,10 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const newReturn: Partial<Movement> = {
-        type: 'return',
+        type: "return",
         productId: formData.productId,
-        productName: selectedProduct?.name || '',
-        productSku: selectedProduct?.sku || '',
+        productName: selectedProduct?.name || "",
+        productSku: selectedProduct?.sku || "",
         quantity: formData.quantity,
         reason: formData.reason,
         reference: formData.reference || undefined,
@@ -102,30 +102,30 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
         notes: formData.notes || undefined,
         unitCost: formData.unitCost || undefined,
         totalCost: formData.unitCost ? formData.unitCost * formData.quantity : undefined,
-        createdBy: 'admin',
+        createdBy: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
-      console.log('Registering return:', newReturn);
-      
-      const stockChange = formData.returnType === 'increase' ? '+' : '-';
+      console.log("Registering return:", newReturn);
+
+      const stockChange = formData.returnType === "increase" ? "+" : "-";
       setMessage({
-        type: 'success',
+        type: "success",
         text: `Devolución registrada exitosamente. Stock actualizado: ${stockChange}${formData.quantity} unidades.`
       });
 
       // Reset form
       setFormData({
-        productId: '',
+        productId: "",
         quantity: 0,
-        reason: 'customer_return',
-        reference: '',
-        customer: '',
-        supplier: '',
-        notes: '',
+        reason: "customer_return",
+        reference: "",
+        customer: "",
+        supplier: "",
+        notes: "",
         unitCost: 0,
-        returnType: 'increase',
+        returnType: "increase",
       });
 
       // Clear message after 3 seconds
@@ -134,10 +134,10 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
       }, 3000);
 
     } catch (error) {
-      console.error('Error registering return:', error);
+      console.error("Error registering return:", error);
       setMessage({
-        type: 'error',
-        text: 'Error al registrar la devolución. Por favor, inténtelo de nuevo.'
+        type: "error",
+        text: "Error al registrar la devolución. Por favor, inténtelo de nuevo."
       });
 
       setTimeout(() => setMessage(null), 5000);
@@ -147,17 +147,17 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
   };
 
   const handleBack = () => {
-    onNavigate('returns-list');
+    onNavigate("returns-list");
   };
 
   const totalCost = formData.unitCost * formData.quantity;
 
   // Determine if this return increases or decreases stock based on reason
   React.useEffect(() => {
-    if (formData.reason === 'customer_return' || formData.reason === 'quality_issue') {
-      setFormData(prev => ({ ...prev, returnType: 'increase' }));
-    } else if (formData.reason === 'supplier_return') {
-      setFormData(prev => ({ ...prev, returnType: 'decrease' }));
+    if (formData.reason === "customer_return" || formData.reason === "quality_issue") {
+      setFormData(prev => ({ ...prev, returnType: "increase" }));
+    } else if (formData.reason === "supplier_return") {
+      setFormData(prev => ({ ...prev, returnType: "decrease" }));
     }
   }, [formData.reason]);
 
@@ -174,11 +174,11 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
       {/* Success/Error Messages */}
       {message && (
         <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
-          message.type === 'success' 
-            ? 'bg-success-50 border border-success-200 text-success-700' 
-            : 'bg-error-50 border border-error-200 text-error-700'
+          message.type === "success" 
+            ? "bg-success-50 border border-success-200 text-success-700" 
+            : "bg-error-50 border border-error-200 text-error-700"
         }`}>
-          {message.type === 'success' ? (
+          {message.type === "success" ? (
             <CheckCircle size={20} />
           ) : (
             <XCircle size={20} />
@@ -202,7 +202,7 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
               </label>
               <select
                 value={formData.productId}
-                onChange={(e) => handleInputChange('productId', e.target.value)}
+                onChange={(e) => handleInputChange("productId", e.target.value)}
                 className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               >
                 <option value="">Seleccione un producto</option>
@@ -213,7 +213,7 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
                 ))}
               </select>
               {errors.productId && (
-                <p className="mt-1 text-sm text-red-500">{errors.productId}</p>
+                <div className="text-sm text-gray-900">{returnItem.reference || "-"}</div>
               )}
             </div>
 
@@ -222,8 +222,8 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
               label="Cantidad *"
               type="number"
               min="1"
-              value={formData.quantity || ''}
-              onChange={(e) => handleInputChange('quantity', parseInt(e.target.value) || 0)}
+              value={formData.quantity || ""}
+              onChange={(e) => handleInputChange("quantity", parseInt(e.target.value) || 0)}
               error={errors.quantity}
               placeholder="Cantidad devuelta"
             />
@@ -235,7 +235,7 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
               </label>
               <select
                 value={formData.reason}
-                onChange={(e) => handleInputChange('reason', e.target.value)}
+                onChange={(e) => handleInputChange("reason", e.target.value)}
                 className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               >
                 {RETURN_REASONS.map((reason) => (
@@ -256,7 +256,7 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
               </label>
               <select
                 value={formData.returnType}
-                onChange={(e) => handleInputChange('returnType', e.target.value)}
+                onChange={(e) => handleInputChange("returnType", e.target.value)}
                 className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               >
                 <option value="increase">Aumentar Stock (Devolución de Cliente)</option>
@@ -268,28 +268,28 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
             <Input
               label="Referencia/Documento"
               value={formData.reference}
-              onChange={(e) => handleInputChange('reference', e.target.value)}
+              onChange={(e) => handleInputChange("reference", e.target.value)}
               error={errors.reference}
               placeholder="Número de devolución, orden, etc."
             />
 
             {/* Customer - Show only for customer returns */}
-            {['customer_return', 'quality_issue', 'defective'].includes(formData.reason) && (
+            {["customer_return", "quality_issue", "defective"].includes(formData.reason) && (
               <Input
                 label="Cliente *"
                 value={formData.customer}
-                onChange={(e) => handleInputChange('customer', e.target.value)}
+                onChange={(e) => handleInputChange("customer", e.target.value)}
                 error={errors.customer}
                 placeholder="Nombre del cliente"
               />
             )}
 
             {/* Supplier - Show only for supplier returns */}
-            {['supplier_return'].includes(formData.reason) && (
+            {["supplier_return"].includes(formData.reason) && (
               <Input
                 label="Proveedor *"
                 value={formData.supplier}
-                onChange={(e) => handleInputChange('supplier', e.target.value)}
+                onChange={(e) => handleInputChange("supplier", e.target.value)}
                 error={errors.supplier}
                 placeholder="Nombre del proveedor"
               />
@@ -301,8 +301,8 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
               type="number"
               step="0.01"
               min="0"
-              value={formData.unitCost || ''}
-              onChange={(e) => handleInputChange('unitCost', parseFloat(e.target.value) || 0)}
+              value={formData.unitCost || ""}
+              onChange={(e) => handleInputChange("unitCost", parseFloat(e.target.value) || 0)}
               error={errors.unitCost}
               placeholder="0.00"
             />
@@ -315,7 +315,7 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
             </label>
             <textarea
               value={formData.notes}
-              onChange={(e) => handleInputChange('notes', e.target.value)}
+              onChange={(e) => handleInputChange("notes", e.target.value)}
               rows={3}
               className="w-full py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
               placeholder="Describa el motivo de la devolución, estado del producto, etc."
@@ -339,13 +339,13 @@ const RegisterReturn: React.FC<RegisterReturnProps> = ({ currentView, onNavigate
                 <div>
                   <span className="text-gray-600">Cantidad devuelta:</span>
                   <span className="ml-2 font-medium text-warning-700">
-                    {formData.returnType === 'increase' ? '+' : '-'}{formData.quantity} unidades
+                    {formData.returnType === "increase" ? "+" : "-"}{formData.quantity} unidades
                   </span>
                 </div>
                 <div>
                   <span className="text-gray-600">Nuevo stock:</span>
                   <span className="ml-2 font-medium text-warning-700">
-                    {formData.returnType === 'increase' 
+                    {formData.returnType === "increase" 
                       ? selectedProduct.stock + formData.quantity 
                       : selectedProduct.stock - formData.quantity
                     } unidades

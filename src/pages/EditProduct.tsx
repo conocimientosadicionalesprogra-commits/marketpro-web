@@ -1,7 +1,7 @@
-import React from 'react';
-import { ArrowLeft } from 'lucide-react';
-import ProductForm from '../components/ProductForm';
-import type { Product } from '../types/product';
+import React from "react";
+import { ArrowLeft } from "lucide-react";
+import ProductForm from "../components/ProductForm";
+import type { Product } from "../types/product";
 
 interface EditProductProps {
   product?: Product;
@@ -12,14 +12,14 @@ interface EditProductProps {
 
 const EditProduct: React.FC<EditProductProps> = ({ product, onBack, currentView, onNavigate }) => {
   const handleSubmit = (data: Product) => {
-    console.log('Updating product:', data);
+    console.log("Updating product:", data);
     // Here you would typically make an API call to update the product
     onBack();
   };
 
   const handleDelete = () => {
-    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
-      console.log('Deleting product:', product?.id);
+    if (confirm("¿Está seguro de que desea eliminar este producto?")) {
+      console.log("Deleting product:", product?.id);
       // Here you would typically make an API call to delete the product
       onBack();
     }

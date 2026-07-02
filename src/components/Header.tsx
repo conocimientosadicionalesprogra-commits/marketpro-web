@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { LogIn, User, Settings, LogOut, ChevronDown } from 'lucide-react';
+import React, { useState } from "react";
+import { LogIn, User, Settings, LogOut, ChevronDown } from "lucide-react";
 
 /**
  * COMPONENTE HEADER (ENCABEZADO)
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, isAuthenticated = false, cu
    * Navega a la página de login cuando el usuario no está autenticado
    */
   const handleLoginClick = () => {
-    onNavigate('login');
+    onNavigate("login");
   };
 
   /**
@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, isAuthenticated = false, cu
    */
   const handleEditProfile = () => {
     setShowProfileMenu(false);
-    onNavigate('profile');
+    onNavigate("profile");
   };
 
   /**
@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, isAuthenticated = false, cu
    */
   const handleLogout = () => {
     setShowProfileMenu(false);
-    onNavigate('logout');
+    onNavigate("logout");
   };
 
   // RENDERIZADO PARA USUARIO NO AUTENTICADO
@@ -124,10 +124,10 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, isAuthenticated = false, cu
               {/* INFORMACIÓN DEL USUARIO */}
               <div className="text-left">
                 <div className="text-sm font-medium text-gray-900">
-                  {currentUser?.username || 'Usuario'}
+                  {currentUser?.username || "Usuario"}
                 </div>
                 <div className="text-xs text-gray-500">
-                  {currentUser?.role || 'Rol'}
+                  {currentUser?.role || "Rol"}
                 </div>
               </div>
               

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { UserPlus, Edit2, Power, Check } from 'lucide-react';
-import Button from '../components/ui/Button';
-import type { User } from '../types/user';
+import React, { useState } from "react";
+import { UserPlus, Edit2, Power, Check } from "lucide-react";
+import Button from "../components/ui/Button";
+import type { User } from "../types/user";
 
 interface UsersProps {
   currentView: string;
   onNavigate: (view: string) => void;
   users: User[];               
-  onAddUser: (user: any) => void; 
+  onAddUser: (user: User) => void; 
   onToggleStatus: (userId: string) => void; 
-  onUpdateUser: (userId: string, updatedData: any | null) => void; 
+  onUpdateUser: (userId: string, pá: Partial<User> | null) => void; 
 }
 
 const Users: React.FC<UsersProps> = ({ 
-  currentView, 
+ // currentView, //
   onNavigate, 
   users, 
   onAddUser = () => {},
@@ -21,10 +21,10 @@ const Users: React.FC<UsersProps> = ({
   onUpdateUser
 }) => {
   const [isCreating, setIsCreating] = useState(false);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [role, setRole] = useState('Cajero');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("Cajero");
+  const [password, setPassword] = useState("");
 
   const handleCreateUserClick = () => {
     setIsCreating(true);
@@ -42,10 +42,10 @@ const Users: React.FC<UsersProps> = ({
       isActive: true
     });
 
-    setUsername('');
-    setEmail('');
-    setRole('Cajero');
-    setPassword(''); 
+    setUsername("");
+    setEmail("");
+    setRole("Cajero");
+    setPassword(""); 
     setIsCreating(false);
   };
 
@@ -157,19 +157,19 @@ const Users: React.FC<UsersProps> = ({
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <span className={`
                       px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                      ${user.role === 'Administrador' ? 'bg-purple-100 text-purple-800' : ''}
-                      ${String(user.role || '').includes('Bodega') ? 'bg-blue-100 text-blue-800' : ''}
-                      ${user.role === 'Cajero' ? 'bg-green-100 text-green-800' : ''}
+                      ${user.role === "Administrador" ? "bg-purple-100 text-purple-800" : ""}
+                      ${String(user.role || "").includes("Bodega") ? "bg-blue-100 text-blue-800" : ""}
+                      ${user.role === "Cajero" ? "bg-green-100 text-green-800" : ""}
                     `}>
-                      {String(user.role || 'Usuario')}
+                      {String(user.role || "Usuario")}
                     </span>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <span className={`
                       px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                      ${user.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}
+                      ${user.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}
                     `}>
-                      {user.isActive ? 'Activo' : 'Inactivo'}
+                      {user.isActive ? "Activo" : "Inactivo"}
                     </span>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right font-medium">
@@ -205,12 +205,12 @@ const Users: React.FC<UsersProps> = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          const accion = user.isActive ? 'desactivar' : 'activar';
+                          const accion = user.isActive ? "desactivar" : "activar";
                           if (confirm(`¿Estás seguro de que deseas ${accion} al usuario "${user.username}"?`)) {
                             onToggleStatus(user.id);
                           }
                         }}
-                        className={`${user.isActive ? 'text-red-500' : 'text-green-600'} p-1.5`}
+                        className={`${user.isActive ? "text-red-500" : "text-green-600"} p-1.5`}
                         title={user.isActive ? "Desactivar" : "Activar"}
                       >
                         {user.isActive ? <Power size={15} /> : <Check size={15} />}

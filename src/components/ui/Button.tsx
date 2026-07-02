@@ -1,41 +1,41 @@
-import React from 'react';
+import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
   isLoading?: boolean;
   children: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'md',
+  variant = "primary",
+  size = "md",
   fullWidth = false,
   isLoading = false,
   children,
-  className = '',
+  className = "",
   disabled,
   ...props
 }) => {
-  const baseClasses = 'font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseClasses = "font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
   
   const variantClasses = {
-    primary: 'bg-primary text-white hover:bg-primary/90 focus:ring-primary/50',
-    secondary: 'bg-accent text-white hover:bg-accent/90 focus:ring-accent/50',
-    outline: 'bg-transparent border border-primary text-primary hover:bg-primary/10 focus:ring-primary/30',
-    ghost: 'bg-transparent text-primary hover:bg-primary/10 focus:ring-primary/30',
+    primary: "bg-primary text-white hover:bg-primary/90 focus:ring-primary/50",
+    secondary: "bg-accent text-white hover:bg-accent/90 focus:ring-accent/50",
+    outline: "bg-transparent border border-primary text-primary hover:bg-primary/10 focus:ring-primary/30",
+    ghost: "bg-transparent text-primary hover:bg-primary/10 focus:ring-primary/30",
   };
   
   const sizeClasses = {
-    sm: 'py-1 px-3 text-sm',
-    md: 'py-2 px-4 text-base',
-    lg: 'py-3 px-6 text-lg',
+    sm: "py-1 px-3 text-sm",
+    md: "py-2 px-4 text-base",
+    lg: "py-3 px-6 text-lg",
   };
   
-  const widthClass = fullWidth ? 'w-full' : '';
-  const loadingClass = isLoading ? 'opacity-70 cursor-not-allowed' : '';
-  const disabledClass = disabled ? 'opacity-50 cursor-not-allowed' : '';
+  const widthClass = fullWidth ? "w-full" : "";
+  const loadingClass = isLoading ? "opacity-70 cursor-not-allowed" : "";
+  const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";
   
   return (
     <button

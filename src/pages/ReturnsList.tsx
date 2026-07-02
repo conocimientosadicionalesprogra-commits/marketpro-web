@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Filter, RotateCcw, Eye } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { sampleMovements } from '../data/movements';
-import { RETURN_REASONS } from '../types/movement';
-import { formatDate } from '../utils/formatDate';
+import React, { useState, useMemo } from "react";
+import { Search, Filter, RotateCcw, Eye } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { sampleMovements } from "../data/movements";
+import { RETURN_REASONS } from "../types/movement";
+import { formatDate } from "../utils/formatDate";
 
 interface ReturnsListProps {
   currentView: string;
@@ -12,13 +12,13 @@ interface ReturnsListProps {
 }
 
 const ReturnsList: React.FC<ReturnsListProps> = ({ currentView, onNavigate }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedReason, setSelectedReason] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedReason, setSelectedReason] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Filter only return movements
-  const returns = sampleMovements.filter(movement => movement.type === 'return');
+  const returns = sampleMovements.filter(movement => movement.type === "return");
 
   // Filter and search logic
   const filteredReturns = useMemo(() => {
@@ -44,10 +44,10 @@ const ReturnsList: React.FC<ReturnsListProps> = ({ currentView, onNavigate }) =>
   }, [returns, searchQuery, selectedReason, startDate, endDate]);
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedReason('');
-    setStartDate('');
-    setEndDate('');
+    setSearchQuery("");
+    setSelectedReason("");
+    setStartDate("");
+    setEndDate("");
   };
 
   const getReasonLabel = (reason: string) => {
@@ -57,16 +57,16 @@ const ReturnsList: React.FC<ReturnsListProps> = ({ currentView, onNavigate }) =>
 
   const getReasonColor = (reason: string) => {
     switch (reason) {
-      case 'customer_return':
-        return 'bg-accent/10 text-accent';
-      case 'supplier_return':
-        return 'bg-primary/10 text-primary';
-      case 'quality_issue':
-        return 'bg-warning-100 text-warning-700';
-      case 'defective':
-        return 'bg-error-100 text-error-700';
+      case "customer_return":
+        return "bg-accent/10 text-accent";
+      case "supplier_return":
+        return "bg-primary/10 text-primary";
+      case "quality_issue":
+        return "bg-warning-100 text-warning-700";
+      case "defective":
+        return "bg-error-100 text-error-700";
       default:
-        return 'bg-gray-100 text-gray-700';
+        return "bg-gray-100 text-gray-700";
     }
   };
 
@@ -83,7 +83,7 @@ const ReturnsList: React.FC<ReturnsListProps> = ({ currentView, onNavigate }) =>
             <h1 className="text-2xl font-bold text-gray-900">Devoluciones</h1>
           </div>
           <Button
-            onClick={() => onNavigate('register-return')}
+            onClick={() => onNavigate("register-return")}
             className="flex items-center gap-2"
           >
             <RotateCcw size={18} />
@@ -209,24 +209,25 @@ const ReturnsList: React.FC<ReturnsListProps> = ({ currentView, onNavigate }) =>
                         {getReasonLabel(returnItem.reason)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{returnItem.reference || '-'}</div>
+                    <td className="px-6 py-4 whitespace-nowrap">("{"-"}")
+                    
+                      <div className="text-sm text-gray-900">{returnItem.reference || "-"}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {returnItem.customer || returnItem.supplier || '-'}
+                        {returnItem.customer || returnItem.supplier || "-"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {returnItem.totalCost ? `$${returnItem.totalCost.toLocaleString()}` : '-'}
+                        {returnItem.totalCost ? `$${returnItem.totalCost.toLocaleString()}` : "-"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => console.log('View details:', returnItem.id)}
+                        onClick={() => console.log("View details:", returnItem.id)}
                         className="text-primary hover:text-primary/80"
                       >
                         <Eye size={16} />

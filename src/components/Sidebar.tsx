@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Home,
   Package,
@@ -16,8 +16,10 @@ import {
   RotateCcw,
   List,
   FileText,
-} from 'lucide-react';
-import Logo from './Logo';
+} from "lucide-react";
+import Logo from "./Logo";
+import { bg } from "date-fns/locale/bg";
+import { pl } from "date-fns/locale/pl";
 
 /**
  * COMPONENTE SIDEBAR (BARRA LATERAL DE NAVEGACIÓN)
@@ -81,10 +83,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     className={`
       w-full flex items-center gap-3 px-4 py-3 text-sm font-medium
       transition-colors duration-200
-      ${isSubSubmenu ? 'pl-16' : isSubmenu ? 'pl-12' : ''} 
+      ${isSubSubmenu ? "pl-16" : isSubmenu ? "pl-12" : ""} 
       ${active 
-        ? 'bg-primary/10 text-primary' 
-        : 'text-gray-600 hover:bg-primary/10 hover:text-primary'
+        ? "bg-primary/10 text-primary" 
+        : "text-gray-600 hover:bg-primary/10 hover:text-primary"
       }
     `}
   >
@@ -122,7 +124,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
       className={`
         w-full flex items-center justify-between px-4 py-3 text-sm font-medium 
         text-gray-600 hover:bg-primary/10 hover:text-primary transition-colors duration-200
-        ${isSubmenu ? 'pl-12' : ''}
+        ${isSubmenu ? "pl-12" : ""}
       `}
     >
       <div className="flex items-center gap-3">
@@ -165,11 +167,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
    * 
    * @param submenu - El submenú que se quiere abrir/cerrar
    */
-  const handleMovementSubmenuToggle = (submenu: 'entries' | 'exits' | 'returns') => {
+  const handleMovementSubmenuToggle = (submenu: "entries" | "exits" | "returns") => {
     // CERRAR TODOS LOS OTROS SUBMENÚS
-    setIsEntriesOpen(submenu === 'entries' ? !isEntriesOpen : false);
-    setIsExitsOpen(submenu === 'exits' ? !isExitsOpen : false);
-    setIsReturnsOpen(submenu === 'returns' ? !isReturnsOpen : false);
+    setIsEntriesOpen(submenu === "entries" ? !isEntriesOpen : false);
+    setIsExitsOpen(submenu === "exits" ? !isExitsOpen : false);
+    setIsReturnsOpen(submenu === "returns" ? !isReturnsOpen : false);
   };
 
   /**
@@ -179,8 +181,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
    * 
    * @param menu - El menú principal que se quiere abrir/cerrar
    */
-  const handleMainMenuToggle = (menu: 'products' | 'movements') => {
-    if (menu === 'products') {
+  const handleMainMenuToggle = (menu: "products" | "movements") => {
+    if (menu === "products") {
       setIsProductsOpen(!isProductsOpen);
       // CERRAR MENÚ DE MOVIMIENTOS CUANDO SE ABRE PRODUCTOS
       if (!isProductsOpen) {
@@ -189,7 +191,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
         setIsExitsOpen(false);
         setIsReturnsOpen(false);
       }
-    } else if (menu === 'movements') {
+    } else if (menu === "movements") {
       setIsMovementsOpen(!isMovementsOpen);
       // CERRAR MENÚ DE PRODUCTOS CUANDO SE ABRE MOVIMIENTOS
       if (!isMovementsOpen) {
@@ -211,8 +213,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
         <SidebarItem
           icon={<Home size={18} />}
           label="Panel de Control"
-          onClick={() => onNavigate('dashboard')}
-          active={currentView === 'dashboard'}
+          onClick={() => onNavigate("dashboard")}
+          active={currentView === "dashboard"}
         />
         
         {/* MENÚ DE PRODUCTOS */}
@@ -220,30 +222,30 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
           icon={<Package size={18} />}
           label="Productos"
           isOpen={isProductsOpen}
-          onToggle={() => handleMainMenuToggle('products')}
+          onToggle={() => handleMainMenuToggle("products")}
         >
           {/* LISTA DE PRODUCTOS */}
           <SidebarItem
             icon={<Package size={16} />}
             label="Lista de Productos"
-            onClick={() => onNavigate('list')}
-            active={currentView === 'list'}
+            onClick={() => onNavigate("list")}
+            active={currentView === "list"}
             isSubmenu
           />
           {/* REGISTRAR PRODUCTO */}
           <SidebarItem
             icon={<PlusCircle size={16} />}
             label="Registrar Producto"
-            onClick={() => onNavigate('create')}
-            active={currentView === 'create'}
+            onClick={() => onNavigate("create")}
+            active={currentView === "create"}
             isSubmenu
           />
           {/* CATEGORÍAS */}
           <SidebarItem
             icon={<Tags size={16} />}
             label="Categorías"
-            onClick={() => onNavigate('categories')}
-            active={currentView === 'categories'}
+            onClick={() => onNavigate("categories")}
+            active={currentView === "categories"}
             isSubmenu
           />
         </SidebarMenu>
@@ -253,30 +255,30 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
           icon={<FileText size={18} />}
           label="Movimientos de Inventario"
           isOpen={isMovementsOpen}
-          onToggle={() => handleMainMenuToggle('movements')}
+          onToggle={() => handleMainMenuToggle("movements")}
         >
           {/* SUBMENÚ DE ENTRADAS */}
           <SidebarMenu
             icon={<ArrowUpCircle size={16} />}
             label="Entradas"
             isOpen={isEntriesOpen}
-            onToggle={() => handleMovementSubmenuToggle('entries')}
+            onToggle={() => handleMovementSubmenuToggle("entries")}
             isSubmenu
           >
             {/* REGISTRAR ENTRADA */}
             <SidebarItem
               icon={<PlusCircle size={14} />}
               label="Registrar Entrada"
-              onClick={() => onNavigate('register-entry')}
-              active={currentView === 'register-entry'}
+              onClick={() => onNavigate("register-entry")}
+              active={currentView === "register-entry"}
               isSubSubmenu
             />
             {/* LISTADO DE ENTRADAS */}
             <SidebarItem
               icon={<List size={14} />}
               label="Listado de Entradas"
-              onClick={() => onNavigate('entries-list')}
-              active={currentView === 'entries-list'}
+              onClick={() => onNavigate("entries-list")}
+              active={currentView === "entries-list"}
               isSubSubmenu
             />
           </SidebarMenu>
@@ -286,23 +288,23 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
             icon={<ArrowDownCircle size={16} />}
             label="Salidas"
             isOpen={isExitsOpen}
-            onToggle={() => handleMovementSubmenuToggle('exits')}
+            onToggle={() => handleMovementSubmenuToggle("exits")}
             isSubmenu
           >
             {/* REGISTRAR SALIDA */}
             <SidebarItem
               icon={<PlusCircle size={14} />}
               label="Registrar Salida"
-              onClick={() => onNavigate('register-exit')}
-              active={currentView === 'register-exit'}
+              onClick={() => onNavigate("register-exit")}
+              active={currentView === "register-exit"}
               isSubSubmenu
             />
             {/* LISTADO DE SALIDAS */}
             <SidebarItem
               icon={<List size={14} />}
               label="Listado de Salidas"
-              onClick={() => onNavigate('exits-list')}
-              active={currentView === 'exits-list'}
+              onClick={() => onNavigate("exits-list")}
+              active={currentView === "exits-list"}
               isSubSubmenu
             />
           </SidebarMenu>
@@ -312,23 +314,23 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
             icon={<RotateCcw size={16} />}
             label="Devoluciones"
             isOpen={isReturnsOpen}
-            onToggle={() => handleMovementSubmenuToggle('returns')}
+            onToggle={() => handleMovementSubmenuToggle("returns")}
             isSubmenu
           >
             {/* REGISTRAR DEVOLUCIÓN */}
             <SidebarItem
               icon={<PlusCircle size={14} />}
               label="Registrar Devolución"
-              onClick={() => onNavigate('register-return')}
-              active={currentView === 'register-return'}
+              onClick={() => onNavigate("register-return")}
+              active={currentView === "register-return"}
               isSubSubmenu
             />
             {/* LISTADO DE DEVOLUCIONES */}
             <SidebarItem
               icon={<List size={14} />}
               label="Listado de Devoluciones"
-              onClick={() => onNavigate('returns-list')}
-              active={currentView === 'returns-list'}
+              onClick={() => onNavigate("returns-list")}
+              active={currentView === "returns-list"}
               isSubSubmenu
             />
           </SidebarMenu>
@@ -338,32 +340,32 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
         <SidebarItem
           icon={<BarChart3 size={18} />}
           label="Reportes"
-          onClick={() => onNavigate('reports')}
-          active={currentView === 'reports'}
+          onClick={() => onNavigate("reports")}
+          active={currentView === "reports"}
         />
         
         {/* USUARIOS */}
         <SidebarItem
           icon={<Users size={18} />}
           label="Usuarios"
-          onClick={() => onNavigate('users')}
-          active={currentView === 'users'}
+          onClick={() => onNavigate("users")}
+          active={currentView === "users"}
         />
         
         {/* ALERTAS DE STOCK BAJO */}
         <SidebarItem
           icon={<AlertTriangle size={18} />}
           label="Alertas de Stock Bajo"
-          onClick={() => onNavigate('alerts')}
-          active={currentView === 'alerts'}
+          onClick={() => onNavigate("alerts")}
+          active={currentView === "alerts"}
         />
         
         {/* CONFIGURACIÓN */}
         <SidebarItem
           icon={<Settings size={18} />}
           label="Configuración"
-          onClick={() => onNavigate('settings')}
-          active={currentView === 'settings'}
+          onClick={() => onNavigate("settings")}
+          active={currentView === "settings"}
         />
         
         {/* SECCIÓN DE CERRAR SESIÓN */}
@@ -371,7 +373,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
           <SidebarItem
             icon={<LogOut size={18} />}
             label="Cerrar Sesión"
-            onClick={() => onNavigate('logout')}
+            onClick={() => onNavigate("logout")}
           />
         </div>
       </nav>

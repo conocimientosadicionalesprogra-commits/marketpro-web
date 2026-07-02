@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Filter, ArrowUpCircle, Eye, FileText } from 'lucide-react';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import { sampleMovements } from '../data/movements';
-import { ENTRY_REASONS } from '../types/movement';
-import { formatDate } from '../utils/formatDate';
-import type { Movement } from '../types/movement';
+import React, { useState, useMemo } from "react";
+import { Search, Filter, ArrowUpCircle, Eye, FileText } from "lucide-react";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import { sampleMovements } from "../data/movements";
+import { ENTRY_REASONS } from "../types/movement";
+import { formatDate } from "../utils/formatDate";
+import type { Movement } from "../types/movement";
 
 interface EntriesListProps {
   currentView: string;
@@ -13,13 +13,13 @@ interface EntriesListProps {
 }
 
 const EntriesList: React.FC<EntriesListProps> = ({ currentView, onNavigate }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedReason, setSelectedReason] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedReason, setSelectedReason] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Filter only entry movements
-  const entries = sampleMovements.filter(movement => movement.type === 'entry');
+  const entries = sampleMovements.filter(movement => movement.type === "entry");
 
   // Filter and search logic
   const filteredEntries = useMemo(() => {
@@ -44,10 +44,10 @@ const EntriesList: React.FC<EntriesListProps> = ({ currentView, onNavigate }) =>
   }, [entries, searchQuery, selectedReason, startDate, endDate]);
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedReason('');
-    setStartDate('');
-    setEndDate('');
+    setSearchQuery("");
+    setSelectedReason("");
+    setStartDate("");
+    setEndDate("");
   };
 
   const getReasonLabel = (reason: string) => {
@@ -57,16 +57,16 @@ const EntriesList: React.FC<EntriesListProps> = ({ currentView, onNavigate }) =>
 
   const getReasonColor = (reason: string) => {
     switch (reason) {
-      case 'purchase':
-        return 'bg-primary/10 text-primary';
-      case 'donation':
-        return 'bg-accent/10 text-accent';
-      case 'production':
-        return 'bg-success-100 text-success-700';
-      case 'adjustment':
-        return 'bg-warning-100 text-warning-700';
+      case "purchase":
+        return "bg-primary/10 text-primary";
+      case "donation":
+        return "bg-accent/10 text-accent";
+      case "production":
+        return "bg-success-100 text-success-700";
+      case "adjustment":
+        return "bg-warning-100 text-warning-700";
       default:
-        return 'bg-gray-100 text-gray-700';
+        return "bg-gray-100 text-gray-700";
     }
   };
 
@@ -83,7 +83,7 @@ const EntriesList: React.FC<EntriesListProps> = ({ currentView, onNavigate }) =>
             <h1 className="text-2xl font-bold text-gray-900">Entradas de Inventario</h1>
           </div>
           <Button
-            onClick={() => onNavigate('register-entry')}
+            onClick={() => onNavigate("register-entry")}
             className="flex items-center gap-2"
           >
             <ArrowUpCircle size={18} />
@@ -210,21 +210,22 @@ const EntriesList: React.FC<EntriesListProps> = ({ currentView, onNavigate }) =>
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{entry.reference || '-'}</div>
+                      <div className="text-sm text-gray-900">{entry.reference || "-"}
+                    </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{entry.supplier || '-'}</div>
+                      <div className="text-sm text-gray-900">{entry.supplier || "-"}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {entry.totalCost ? `$${entry.totalCost.toLocaleString()}` : '-'}
+                        {entry.totalCost ? `$${entry.totalCost.toLocaleString()}` : "-"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => console.log('View details:', entry.id)}
+                        onClick={() => console.log("View details:", entry.id)}
                         className="text-primary hover:text-primary/80"
                       >
                         <Eye size={16} />

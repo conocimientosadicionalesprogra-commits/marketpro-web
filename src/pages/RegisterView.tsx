@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Shield } from 'lucide-react';
-import Button from '../components/ui/Button';
+import React, { useState } from "react";
+import { Shield } from "lucide-react";
+import Button from "../components/ui/Button";
 
 interface RegisterViewProps {
   onRegister: (user: any) => boolean;
@@ -8,10 +8,10 @@ interface RegisterViewProps {
 }
 
 const RegisterView: React.FC<RegisterViewProps> = ({ onRegister, onNavigate }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Cajero'); // Rol por defecto al registrarse libremente
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Cajero"); // Rol por defecto al registrarse libremente
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,10 +26,10 @@ const RegisterView: React.FC<RegisterViewProps> = ({ onRegister, onNavigate }) =
     });
 
     if (success) {
-      alert('¡Usuario registrado con éxito! Ahora puedes iniciar sesión.');
-      onNavigate('login');
+      alert("¡Usuario registrado con éxito! Ahora puedes iniciar sesión.");
+      onNavigate("login");
     } else {
-      alert('Hubo un error al registrar el usuario.');
+      alert("Hubo un error al registrar el usuario.");
     }
   };
 
@@ -102,7 +102,7 @@ const RegisterView: React.FC<RegisterViewProps> = ({ onRegister, onNavigate }) =
             </div>
             
             <div className="text-center text-sm mt-2">
-              <button type="button" onClick={() => onNavigate('login')} className="text-blue-600 hover:underline">
+              <button type="button" onClick={() => onNavigate("login")} className="text-blue-600 hover:underline">
                 ¿Ya tienes una cuenta? Inicia sesión
               </button>
             </div>
