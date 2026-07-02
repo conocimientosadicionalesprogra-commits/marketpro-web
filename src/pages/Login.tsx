@@ -29,11 +29,11 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
         
         {/* === SECCIÓN MODIFICADA: REEMPLAZO DEL ESCUDO POR TU LOGO === */}
         <div className="flex justify-center mb-4">
-          <img 
-            src="./MarketPro.png" 
-            alt="Logo MarketPro" 
-            className="h-16 w-auto object-contain" 
-          />
+          <img
+  src={`${import.meta.env.BASE_URL}MarketPro.png`}
+  alt="Logo MarketPro"
+  className="h-16 w-auto object-contain"
+/>
         </div>
         {/* ========================================================== */}
 
